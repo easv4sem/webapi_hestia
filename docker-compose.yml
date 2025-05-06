@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+
+  # SEQ is a logging service.
+  seq:
+    image: datalust/seq
+    ports:
+      - "5341:5341"
+      - "5342:80"
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - seq_data:/data
+
+  middleware:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - seq
+    restart: on-failure
+    ports:
+      - "3000:3000"
+    environment:
+      port: 3000
+      NODE_ENV: development
+      MONGO_DB_CONNECTION_STRING: mongodb://mongo:27017/
+      MONGO_DB_DEVICE_COLLECTION: devices
+      SEQ_URL: http://seq:5341
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - cache-data:/data
+
+
+  mongo:
+    image: mongo
+    restart: on-failure
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      - MONGO_LOGLEVEL=1
+
+volumes:
+  seq_data:
+    driver: local
+  cache-data:
+    driver: local
+  mongo-data:
+    driver: local

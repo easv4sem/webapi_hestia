@@ -1,3 +1,7 @@
 export interface ISensor {
-    SensorUniqeIdentifier : string;
+    UniqueIdentifier : string;
+    DisplayName?: string;
+    SerialNumber?: string;
+    LastChangeDate?: Date;
+    Comment?: string;
 }

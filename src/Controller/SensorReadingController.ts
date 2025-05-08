@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { SensorRepository } from "../Repository/SensorRepository.js";
 import Logger from "../Infrastructure/Logger/logger.js";
 
-export class SensorController{
+export class SensorReadingController {
 
     private sensorRepository: SensorRepository = new SensorRepository();
 

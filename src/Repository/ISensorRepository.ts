@@ -1,9 +1,10 @@
-import * as QueryString from "node:querystring";
+import {ISensor} from "../Entities/Models/ISensor";
 
-export interface ISensorRepository{
-
-    // @ts-ignore
-    readAllSensors(id: string | QueryString.ParsedQs | (string | QueryString.ParsedQs)[], range: string | QueryString.ParsedQs | (string | QueryString.ParsedQs)[]);
-
-
+export interface ISensorRepository {
+    getAllSensors(): Promise<ISensor[]>;
+    getSensorById(sensorId: string): Promise<ISensor>;
+    getSensorBySerialNumber(serialNumber: string): Promise<ISensor>;
+    postSensor(sensor: ISensor): Promise<ISensor>;
+    putSensor(sensor: ISensor): Promise<ISensor>;
+    deleteSensorById(sensorId: string): Promise<boolean>;
 }

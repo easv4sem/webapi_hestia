@@ -1,9 +1,9 @@
-import { ISensorRepository } from "./ISensorRepository.js";
+import { ISensorReadingRepository } from "./ISensorReadingRepository";
 import * as QueryString from "node:querystring";
 import {IMariaDBService, MariaDBService} from "../Data/MariaDBService.js";
 
 
-export class SensorRepository implements ISensorRepository {
+export class SensorRepository implements ISensorReadingRepository {
 
     private readonly databaseService : IMariaDBService = new MariaDBService();
 

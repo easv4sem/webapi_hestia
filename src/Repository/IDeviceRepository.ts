@@ -1,8 +1,11 @@
-import {IDevice} from "../Entities/Interfaces/IDevice.js";
+import { IDevice } from "../Entities/Models/IDevice";
 
 export interface IDeviceRepository{
-    read(id: number, range: number);
     readAllDevices() : Promise<IDevice[]>;
-    readDeviceById(id: number) : Promise<IDevice>;
+    readDeviceById(id: string) : Promise<IDevice>;
     readDeviceByMacAddress(macAddress: string) : Promise<IDevice>;
+    postDevice(device: IDevice): Promise<IDevice>;
+    putDevice(device: IDevice): Promise<IDevice>;
+    deleteDeviceById(id: string): Promise<boolean>;
+    deleteDeviceByMac(mac: string): Promise<boolean>;
 }

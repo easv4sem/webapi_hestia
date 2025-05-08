@@ -1,12 +1,16 @@
 import {IDeviceRepository} from "../Repository/IDeviceRepository.js";
 import {RegexUtils} from "../Utilities/regexUtils.js";
 import Logger from "../Infrastructure/Logger/logger.js";
-import {IDevice} from "../Entities/Interfaces/IDevice";
+import {IDevice} from "../Entities/Models/IDevice";
 
 interface IDeviceController {
     getDeviceByMac(req: any, res: any): Promise<Response>;
     getDeviceById(req: any, res: any): Promise<Response>;
     getDevices(req: any, res: any): Promise<Response>;
+    putDevice(req: any, res: any): Promise<Response>;
+    postDevice(req: any, res: any): Promise<Response>;
+    deleteDeviceById(req: any, res: any): Promise<Response>;
+    deleteDeviceByMac(req: any, res: any): Promise<Response>;
 }
 
 export default class DeviceController implements IDeviceController {
@@ -17,8 +21,104 @@ export default class DeviceController implements IDeviceController {
         this.getDevices = this.getDevices.bind(this);
         this.getDeviceById = this.getDeviceById.bind(this);
         this.getDeviceByMac = this.getDeviceByMac.bind(this);
+        this.putDevice = this.putDevice.bind(this);
+        this.postDevice = this.postDevice.bind(this);
+        this.deleteDeviceById = this.deleteDeviceById.bind(this);
+        this.deleteDeviceByMac = this.deleteDeviceByMac.bind(this);
     }
 
+    public async putDevice(req: any, res: any): Promise<Response> {
+        try {
+
+            if (!req.body?.device) {
+                return res.status(400).send("Device is required in the body");
+            }
+            const device : IDevice = req.body.device;
+
+            // Check if the device ID is a valid mac address
+            if (!RegexUtils.isValidMacAddress(device.Mac)) {
+                return res.status(400).send("Invalid Device ID, must be a valid mac address for the device");
+            }
+            const existingDevice : IDevice = await this._deviceRepository.readDeviceByMacAddress(device.Mac);
+            if (!existingDevice) {
+                return res.status(404).send("Device not found");
+            }
+            const updatedDevice : IDevice = await this._deviceRepository.putDevice(device);
+            if (!updatedDevice) {
+                return res.status(500).send("Failed to update device");
+            }
+            return res.status(200).send(updatedDevice);
+
+
+
+        } catch (err) {
+            Logger.error("Error updating device: ", err);
+            return res.status(500).send("Internal server error");
+        }
+    }
+    public async postDevice(req: any, res: any): Promise<Response> {
+        try {
+
+            if (!req.body?.device) {
+                return res.status(400).send("Device is required");
+            }
+
+            const device : IDevice = req.body.device;
+
+            // Check if the device ID is a valid mac address
+            if (!RegexUtils.isValidMacAddress(device.Mac)) {
+                return res.status(400).send("Invalid Device ID, must be a valid mac address for the device");
+            }
+
+            const existingDevice : IDevice = await this._deviceRepository.readDeviceByMacAddress(device.Mac);
+            if (existingDevice) {
+                return res.status(409).send("Device already exists");
+            }
+
+            const newDevice : IDevice = await this._deviceRepository.postDevice(device);
+            return res.status(201).send(newDevice);
+
+        } catch (err) {
+            Logger.error("Error creating device: ", err);
+            return res.status(500).send("Internal server error");
+        }
+    }
+    public async deleteDeviceById(req: any, res: any): Promise<Response> {
+        if (!req.params?.id) {
+            return res.status(400).send("Device id is required as a parameter");
+        }
+
+        // delete the device if it exists
+        const device : IDevice = await this._deviceRepository.readDeviceById(req.params.id);
+        if (!device) {
+            return res.status(404).send("Device not found");
+        }
+
+        const deleted : boolean = await this._deviceRepository.deleteDeviceById(req.params.id);
+        if (!deleted) {
+            return res.status(500).send("Failed to delete device");
+        }
+        return res.status(200).send("Device deleted successfully");
+
+    }
+    public async deleteDeviceByMac(req: any, res: any): Promise<Response> {
+        if (!req.params?.mac) {
+            return res.status(400).send("Device mac is required as a parameter");
+        }
+
+        // delete the device if it exists
+        const device : IDevice = await this._deviceRepository.readDeviceById(req.params.mac);
+        if (!device) {
+            return res.status(404).send("Device not found");
+        }
+
+        const deleted : boolean = await this._deviceRepository.deleteDeviceByMac(req.params.mac);
+        if (!deleted) {
+            return res.status(500).send("Failed to delete device");
+        }
+        return res.status(200).send("Device deleted successfully");
+
+    }
     public async getDeviceById(req: any, res: any): Promise<Response> {
 
         try {
@@ -28,6 +128,10 @@ export default class DeviceController implements IDeviceController {
             }
 
             const device : IDevice = await this._deviceRepository.readDeviceById(req.params.id);
+            if (!device || device === undefined) {
+                return res.status(404).send("Device not found");
+            }
+
             return await res.status(200).send(device);
 
         } catch (err) {
@@ -36,7 +140,6 @@ export default class DeviceController implements IDeviceController {
         }
 
     }
-
     public async getDeviceByMac(req: any, res: any): Promise<Response> {
         try {
             if (!req.params?.mac) {
@@ -49,6 +152,9 @@ export default class DeviceController implements IDeviceController {
             }
 
             const device : IDevice = await this._deviceRepository.readDeviceByMacAddress(req.params.mac);
+            if (!device || device === undefined) {
+                return res.status(404).send("Device not found");
+            }
             return await res.status(200).send(device);
         } catch (err) {
             Logger.error("Error fetching device by mac address: ", err);
@@ -56,7 +162,6 @@ export default class DeviceController implements IDeviceController {
         }
 
     }
-
     public async getDevices(req: any, res: any): Promise<Response> {
 
         try {

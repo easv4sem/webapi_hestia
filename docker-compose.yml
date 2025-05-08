@@ -26,6 +26,7 @@ services:
       port: 3000
       NODE_ENV: development
       MONGO_DB_CONNECTION_STRING: mongodb://mongo:27017/
+      MONGO_DB_NAME: hestia
       MONGO_DB_DEVICE_COLLECTION: devices
       SEQ_URL: http://seq:5341
 

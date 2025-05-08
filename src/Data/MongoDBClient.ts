@@ -1,5 +1,5 @@
 import { MongoClient, Db, Collection } from "mongodb";
-import Logger from "../Infrastructure/Logger/logger";
+import Logger from "../Infrastructure/Logger/logger.js";
 
 interface IMongoDBClient {
     close() : Promise<void>;

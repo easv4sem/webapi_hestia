@@ -1,18 +1,22 @@
 import express from "express";
 import DeviceController from "../Controller/deviceController.js";
-import {DeviceRepositoryMariaDB} from "../Repository/DeviceRepositoryMariaDB.js";
-import {MariaDBService} from "../Data/MariaDBService.js";
 import {SensorController} from "../Controller/SensorController.js";
+import {DeviceRepositoryMongoDB} from "../Repository/DeviceRepositoryMongoDB.js";
+import {MongoDBClient} from "../Data/MongoDBClient.js";
 
 const deviceRoutes = express.Router();
-const mariaDBService = new MariaDBService();
 const sensorController = new SensorController();
+const mongoClient = new MongoDBClient(process.env.MONGO_DB_CONNECTION_STRING || "mongodb://mongo:27017/", process.env.MONGO_DB_NAME || "hestia");
 
-const {getDeviceByMac, getDeviceById, getDevices} = new DeviceController(new DeviceRepositoryMariaDB(mariaDBService));
+const {getDeviceByMac, getDeviceById, getDevices, putDevice, postDevice, deleteDeviceByMac, deleteDeviceById} = new DeviceController(new DeviceRepositoryMongoDB(mongoClient));
 
 deviceRoutes.get("/id/:id", getDeviceById);
 deviceRoutes.get("/mac/:mac", getDeviceByMac);
 deviceRoutes.get("/", getDevices);
+deviceRoutes.put("/", putDevice)
+deviceRoutes.post("/", postDevice)
+deviceRoutes.delete("/id/:id", deleteDeviceById)
+deviceRoutes.delete("/mac/:id", deleteDeviceByMac)
 
 deviceRoutes.get("/sensor", (req, res) =>
     sensorController.getSensorData(req, res));

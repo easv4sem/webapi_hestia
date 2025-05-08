@@ -3,12 +3,12 @@ import {ISensorRepository} from "../Repository/ISensorRepository";
 import Logger from "../Infrastructure/Logger/logger.js";
 
 export interface ISensorController {
-    getAllSensors(res, req): Promise<Response>;
-    getSensorById(res, req): Promise<Response>;
-    getSensorBySerialNumber(res, req): Promise<Response>;
-    postSensor(res, req): Promise<Response>;
-    putSensor(res, req): Promise<Response>;
-    deleteSensorById(res, req): Promise<Response>;
+    getAllSensors(req : any, res : any): Promise<Response>;
+    getSensorById(req : any, res : any): Promise<Response>;
+    getSensorBySerialNumber(req : any, res : any): Promise<Response>;
+    postSensor(req : any, res : any): Promise<Response>;
+    putSensor(req : any, res : any): Promise<Response>;
+    deleteSensorById(req : any, res : any): Promise<Response>;
 }
 
 
@@ -18,10 +18,15 @@ export class SensorController implements ISensorController {
 
     constructor(sensorRepository: ISensorRepository) {
         this.sensorRepository = sensorRepository;
-
+        this.getAllSensors = this.getAllSensors.bind(this);
+        this.getSensorById = this.getSensorById.bind(this);
+        this.getSensorBySerialNumber = this.getSensorBySerialNumber.bind(this);
+        this.postSensor = this.postSensor.bind(this);
+        this.putSensor = this.putSensor.bind(this);
+        this.deleteSensorById = this.deleteSensorById.bind(this);
     }
 
-    async getAllSensors(res: any, req: any): Promise<Response> {
+    async getAllSensors(req: any, res: any): Promise<Response> {
 
         try {
 
@@ -40,7 +45,7 @@ export class SensorController implements ISensorController {
 
 
     }
-    async getSensorById(res: any, req: any): Promise<Response> {
+    async getSensorById(req: any, res: any): Promise<Response> {
 
         try {
 
@@ -61,7 +66,7 @@ export class SensorController implements ISensorController {
         }
 
     }
-    async getSensorBySerialNumber(res: any, req: any): Promise<Response> {
+    async getSensorBySerialNumber(req: any, res: any): Promise<Response> {
         try {
 
             if (!req.params?.serial) {
@@ -80,7 +85,7 @@ export class SensorController implements ISensorController {
             return res.status(500).send("Internal server error");
         }
     }
-    async postSensor(res: any, req: any): Promise<Response> {
+    async postSensor(req: any, res: any): Promise<Response> {
 
         try {
 
@@ -104,7 +109,7 @@ export class SensorController implements ISensorController {
         }
 
     }
-    async putSensor(res: any, req: any): Promise<Response> {
+    async putSensor(req: any, res: any): Promise<Response> {
         try {
 
             if (!req.body?.sensor) {
@@ -126,7 +131,7 @@ export class SensorController implements ISensorController {
             return res.status(500).send("Internal server error");
         }
     }
-    async deleteSensorById(res: any, req: any): Promise<Response> {
+    async deleteSensorById(req: any, res: any): Promise<Response> {
         try {
 
             if (!req.params?.id) {

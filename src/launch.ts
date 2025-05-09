@@ -11,7 +11,13 @@ import {userRouter} from "./Routes/userRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+const allowedOrigin = "http://localhost:60008"; // Your Flutter Web URL
+
+app.use(cors({
+    origin: allowedOrigin,
+    credentials: true,
+}));
+
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())

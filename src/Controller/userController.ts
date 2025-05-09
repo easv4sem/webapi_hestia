@@ -223,9 +223,9 @@ export class UserController implements IUserController {
      */
     private setUserCookie(response: any, token: string) {
         response.cookie("user", token, {
-            httpOnly: true, // Prevents client-side JavaScript access
-            secure: process.env.NODE_ENV === "production", // Enables secure cookies in production
-            sameSite: "strict", // Prevents CSRF attacks
+            httpOnly: true,
+            secure: false,              // Only true in production with HTTPS
+            sameSite: "lax",            // Or "none" if you allow cross-origin and set secure: true
         });
     }
 

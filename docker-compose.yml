@@ -29,7 +29,7 @@ services:
       MONGO_DB_NAME: hestia
       MONGO_DB_DEVICE_COLLECTION: devices
       MONGO_DB_SENSOR_COLLECTION: sensors
-      MONGO_DB_USER_COLLECTION: users
+      MONGO_DB_NOTIFICATIONS_COLLECTION: notifications
       JWT_SECRET_KEY: your-secret-key
       JWT_ISSUER: your-issuer
       JWT_AUDIENCE: your-audience

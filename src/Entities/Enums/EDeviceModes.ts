@@ -1,6 +1,7 @@
 export enum EDeviceModes {
-    Active,
-    Inactive,
+    Online,
+    Offline,
     Setup,
-    Error
+    Error,
+    Alert,
 }

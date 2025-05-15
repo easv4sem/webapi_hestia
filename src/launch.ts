@@ -12,10 +12,9 @@ import {notificationRoutes} from "./Routes/notificationRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const allowedOrigin = "http://localhost:60008"; // Your Flutter Web URL
 
 app.use(cors({
-    origin: allowedOrigin,
+    origin: true,
     credentials: true,
 }));
 

@@ -1,24 +1,26 @@
 import { Request, Response } from "express";
-import { SensorRepository } from "../Repository/SensorRepository.js";
 import Logger from "../Infrastructure/Logger/logger.js";
+import {ISensorReadingRepository} from "../Repository/ISensorReadingRepository";
 
 export class SensorReadingController {
 
-    private sensorRepository: SensorRepository = new SensorRepository();
+    private readonly sensorReadingRepository: ISensorReadingRepository;
+
+    constructor(sensorReadingRepository: ISensorReadingRepository) {
+
+    }
 
     // @ts-ignore
     public async getSensorData(req: Request, res: Response): Promise<Response> {
 
         try{
-            if (!req.query?.id){
-                return res.status(400).send("Device ID is required");
+            if (!req.body){
+                return res.status(400).send("Request body is required");
             }
 
-            if (!req.query?.range){
-                return res.status(400).send("Range is required");
-            }
+            const result = await this.sensorReadingRepository.readAllSensors(req.body);
 
-            const result = await this.sensorRepository.readAllSensors(req.query.id, req.query.range);
+            Logger.info(result);
 
             return res.send(result);
         }catch(err){

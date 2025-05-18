@@ -1,54 +1,79 @@
 [
   {
-    "PIUniqueIdentifier": "AAA1234567890",
-    "PIDisplayName": "Østermark skov",
-    "Ip": "142.23.21.3",
-    "Port": 1234,
-    "Mac": "00:00:00:00:00:00",
-    "Latitude": 34.567,
-    "Longitude": 123.456,
-    "Version": "0.0.1a",
-    "Sensors": null,
-    "Mode": 1,
-    "LastHeartbeat": "2023-10-01T12:00:00Z"
-  },
-  {
-    "PIUniqueIdentifier": "BBB9876543210",
-    "PIDisplayName": "Nordbakken 2",
-    "Ip": "10.0.0.5",
-    "Port": 8080,
-    "Mac": "01:23:45:67:89:AB",
-    "Latitude": 55.123,
-    "Longitude": 12.345,
-    "Version": "1.2.3",
-    "Sensors": ["temperature", "humidity"],
+    "PIUniqueIdentifier": "RPI001",
+    "PIDisplayName": "Mosebakken øst",
+    "Ip": "172.16.0.20",
+    "Port": 3001,
+    "Mac": "22:33:44:55:66:77",
+    "Latitude": 57.0488,
+    "Longitude": 9.9217,
+    "Version": "1.0.0",
+    "Sensors": [
+      {
+        "UniqueIdentifier": "S501CAM",
+        "DisplayName": "Vildtkamera",
+        "SerialNumber": "cam1001",
+        "LastChangeDate": "2025-05-01T10:15:00Z",
+        "Type": "camera"
+      },
+      {
+        "UniqueIdentifier": "S502AIR",
+        "DisplayName": "Luftkvalitet",
+        "SerialNumber": "mq0001",
+        "LastChangeDate": "2025-05-01T10:15:00Z",
+        "Type": "mq135mq2"
+      }
+    ],
     "Mode": 2,
-    "LastHeartbeat": "2025-05-01T10:15:30Z"
+    "LastHeartbeat": "2025-05-01T10:30:00Z"
   },
   {
-    "PIUniqueIdentifier": "CCC0001112223",
-    "PIDisplayName": "Teststation Syd",
-    "Ip": "192.168.1.100",
-    "Port": 3000,
-    "Mac": "DE:AD:BE:EF:00:01",
-    "Latitude": 48.8584,
-    "Longitude": 2.2945,
-    "Version": "2.0.0-beta",
-    "Sensors": ["co2", "pm2.5"],
-    "Mode": 3,
-    "LastHeartbeat": "2025-04-20T08:30:00Z"
+    "PIUniqueIdentifier": "RPI002",
+    "PIDisplayName": "Vestskoven",
+    "Ip": "10.1.1.50",
+    "Port": 4002,
+    "Mac": "33:44:55:66:77:88",
+    "Latitude": 55.7033,
+    "Longitude": 12.4478,
+    "Version": "1.1.3",
+    "Sensors": [
+      {
+        "UniqueIdentifier": "S503BME",
+        "DisplayName": "BME280 Barometer",
+        "SerialNumber": "bme0001",
+        "LastChangeDate": "2025-04-20T08:00:00Z",
+        "Type": "bme280"
+      },
+      {
+        "UniqueIdentifier": "S504SOIL",
+        "DisplayName": "Jordfugtighed",
+        "SerialNumber": "soil0001",
+        "LastChangeDate": "2025-04-20T08:00:00Z",
+        "Type": "soilMoisture"
+      }
+    ],
+    "Mode": 1,
+    "LastHeartbeat": "2025-04-20T08:10:00Z"
   },
   {
-    "PIUniqueIdentifier": "DDD4445556667",
-    "PIDisplayName": "Vestergade HQ",
-    "Ip": "172.16.254.1",
-    "Port": 9000,
-    "Mac": "FF:EE:DD:CC:BB:AA",
-    "Latitude": 60.1695,
-    "Longitude": 24.9354,
-    "Version": "3.1.0",
-    "Sensors": [],
+    "PIUniqueIdentifier": "RPI003",
+    "PIDisplayName": "Langdal nord",
+    "Ip": "192.168.100.15",
+    "Port": 5005,
+    "Mac": "44:55:66:77:88:99",
+    "Latitude": 56.1629,
+    "Longitude": 10.2039,
+    "Version": "2.0.0",
+    "Sensors": [
+      {
+        "UniqueIdentifier": "S505UNK",
+        "DisplayName": "Ukendt sensor",
+        "SerialNumber": "unk0001",
+        "LastChangeDate": "2025-03-12T13:25:00Z",
+        "Type": "unknown"
+      }
+    ],
     "Mode": 0,
-    "LastHeartbeat": "2025-05-08T14:00:00Z"
+    "LastHeartbeat": "2025-03-12T13:30:00Z"
   }
 ]

@@ -40,5 +40,4 @@ userRouter.post("/logout", async (req, res) => {
     return await userController.signout(req, res);
 })
 
-
 export { userRouter };

@@ -1,6 +1,7 @@
 import {IDeviceRepository} from "./IDeviceRepository";
 import {IDevice} from "../Entities/Models/IDevice";
 import {MongoDBClient} from "../Data/MongoDBClient.js";
+import { EDeviceModes } from "../Entities/Enums/EDeviceModes.js";
 
 export class DeviceRepositoryMongoDB implements IDeviceRepository{
 
@@ -38,6 +39,9 @@ export class DeviceRepositoryMongoDB implements IDeviceRepository{
     }
 
     async postDevice(device: IDevice): Promise<IDevice> {
+
+        if (!device.Mode) device.Mode = EDeviceModes.Offline;
+
         const collection = await this.database.getCollectionAsync<IDevice>(this.collection);
         const result = await collection.insertOne(device);
         if (result.acknowledged) {
@@ -49,16 +53,12 @@ export class DeviceRepositoryMongoDB implements IDeviceRepository{
 
     async putDevice(device: IDevice): Promise<IDevice> {
         const collection = await this.database.getCollectionAsync<IDevice>(this.collection);
-        const result = await collection.updateOne({PIUniqueIdentifier: device.PIUniqueIdentifier}, {$set: device});
+        const result = await collection.updateOne({Mac: device.Mac}, {$set: device});
         if (result.modifiedCount > 0) {
             return device;
         } else {
             throw new Error("Failed to update device");
         }
     }
-
-
-
-
 
 }

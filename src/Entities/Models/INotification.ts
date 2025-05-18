@@ -3,5 +3,5 @@ interface INotification {
     IsRead?: boolean;
     Title?: string;
     SubTitle?: string;
-    Type?: number;
+    Type?: EnumAppNotificationType;
 }

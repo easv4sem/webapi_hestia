@@ -2,7 +2,7 @@
 export interface ISensorReadingRepository {
 
 
-    readAllSensors(sensorData: string);
+    insertSensorReadings(sensorData: string);
 
 
 }

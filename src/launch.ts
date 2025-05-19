@@ -8,6 +8,7 @@ import {analyticsRoutes} from "./Routes/analyticsRoutes.js";
 import {sensorRoutes} from "./Routes/sensorRoutes.js";
 import {userRouter} from "./Routes/userRoutes.js";
 import {notificationRoutes} from "./Routes/notificationRoutes.js";
+import {sensorReadingRoutes} from "./Routes/sensorReadingRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,6 +29,7 @@ app.use('/api/analytics/', analyticsRoutes);
 app.use('/api/sensors', sensorRoutes);
 app.use('/api/user', userRouter);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/sensorReadings', sensorReadingRoutes);
 
 const server = app.listen(PORT, () =>{
     Logger.info("Server service has started on port: " + PORT);

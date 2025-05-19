@@ -1,3 +1,5 @@
+import {INotification} from "../Entities/Models/INotification";
+
 interface INotificationRepository {
     readAllNotifications(): Promise<INotification[]>;
     readNotificationById(id: string): Promise<INotification>;

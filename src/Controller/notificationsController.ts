@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { EnumAppNotificationType } from "../Entities/Enums/EnumAppNotificationType.js";
 import INotificationRepository from "../Repository/INotificationRepository.js";
 import Logger from "../Infrastructure/Logger/logger.js";
 
@@ -89,8 +90,21 @@ export class NotificationsController implements INotificationsController {
         try {
 
             const notification = request.body?.notification;
-            if (!notification) {
+
+            if (!request.body) {
+                return response.status(400).send("Request body is required");
+            }
+
+            if (!notification || !notification.UniqueIdentifier) {
                 return response.status(400).send("Notification data is required");
+            }
+
+            if(typeof notification.Type !== "number" || !Object.values(EnumAppNotificationType).includes(notification.Type)) {
+                return response.status(400).send("Notification type is required and must be a valid Type");
+            }
+
+            if (!notification.DateCreated) {
+                notification.DateCreated = new Date();
             }
 
             const createNotification =  await this._notificationsRepository.postNotification(notification);

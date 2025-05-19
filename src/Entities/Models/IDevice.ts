@@ -14,3 +14,6 @@ export interface IDevice {
     Mode? : EDeviceModes,
     LastHeartbeat?: Date
 }
+
+
+

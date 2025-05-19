@@ -1,5 +1,6 @@
 import {MongoDBClient} from "../Data/MongoDBClient.js";
 import INotificationRepository from "./INotificationRepository.js";
+import {INotification} from "../Entities/Models/INotification";
 
 export class NotificationRepositoryMongo implements INotificationRepository{
 
@@ -46,5 +47,4 @@ export class NotificationRepositoryMongo implements INotificationRepository{
         const result = await collection.deleteOne({UniqueIdentifier: id});
         return result.deletedCount > 0;
     }
-
 }

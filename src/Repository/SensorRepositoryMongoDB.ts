@@ -1,6 +1,7 @@
 import {ISensorRepository} from "./ISensorRepository";
 import {ISensor} from "../Entities/Models/ISensor";
 import {MongoDBClient} from "../Data/MongoDBClient";
+import {IDevice} from "../Entities/Models/IDevice";
 
 export class SensorRepositoryMongoDB implements ISensorRepository {
     private readonly database: MongoDBClient;
@@ -13,14 +14,13 @@ export class SensorRepositoryMongoDB implements ISensorRepository {
 
 
     async deleteSensorById(sensorId: string): Promise<boolean> {
-        const collection = await this.database.getCollectionAsync<ISensor>(this.collection);
+        const collection = await this.database.getCollectionAsync<IDevice>(this.collection);
         const result = await collection.deleteOne({UniqueIdentifier: sensorId});
         return result.deletedCount > 0;
     }
 
     async getAllSensors(): Promise<ISensor[]> {
         return await this.database.getCollectionAsync<ISensor>(this.collection).then(collection => collection.find({}).toArray()) || [];
-
     }
 
     async getSensorById(sensorId: string): Promise<ISensor> {

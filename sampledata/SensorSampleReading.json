@@ -1,0 +1,52 @@
+[
+    {
+        "PIUniqueIdentifier": "RPI001",
+        "SensorIdentifier": "SEN-CAM-01",
+        "Type": "camera",
+        "Timestamp": "2025-05-18T10:00:00Z",
+        "DATA": {
+            "MotionDetected": true,
+            "ImageUrl": "https://example.com/image/001.jpg"
+        }
+    },
+    {
+        "PIUniqueIdentifier": "RPI001",
+        "SensorIdentifier": "SEN-BME-01",
+        "Type": "bme280",
+        "Timestamp": "2025-05-18T10:00:00Z",
+        "DATA": {
+            "Temperature": 22.5,
+            "Humidity": 55.2,
+            "Pressure": 1013.6
+        }
+    },
+    {
+        "PIUniqueIdentifier": "RPI002",
+        "SensorIdentifier": "SEN-GAS-01",
+        "Type": "mq135mq2",
+        "Timestamp": "2025-05-18T10:01:00Z",
+        "DATA": {
+            "Raw": 534,
+            "PPM": 120.7
+        }
+    },
+    {
+        "PIUniqueIdentifier": "RPI002",
+        "SensorIdentifier": "SEN-SOIL-01",
+        "Type": "soilMoisture",
+        "Timestamp": "2025-05-18T10:01:00Z",
+        "DATA": {
+            "MoisturePercent": 32.5
+        }
+    },
+    {
+        "PIUniqueIdentifier": "RPI003",
+        "SensorIdentifier": "SEN-UNK-01",
+        "Type": "unknown",
+        "Timestamp": "2025-05-18T10:02:00Z",
+        "DATA": {
+            "Note": "Sensor type not identified",
+            "Value": 9999
+        }
+    }
+]

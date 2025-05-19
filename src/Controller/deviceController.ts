@@ -11,6 +11,11 @@ interface IDeviceController {
     postDevice(req: any, res: any): Promise<Response>;
     deleteDeviceById(req: any, res: any): Promise<Response>;
     deleteDeviceByMac(req: any, res: any): Promise<Response>;
+
+    getAllDeviceSensorsByDeviceID(req: any, res: any): Promise<Response>;
+    getAllDeviceSensorsByDeviceMac(req: any, res: any): Promise<Response>;
+    postSensorToDeviceByDeviceID(req: any, res: any): Promise<Response>;
+    postSensorToDeviceByDeviceMac(req: any, res: any): Promise<Response>;
 }
 
 export default class DeviceController implements IDeviceController {
@@ -25,6 +30,126 @@ export default class DeviceController implements IDeviceController {
         this.postDevice = this.postDevice.bind(this);
         this.deleteDeviceById = this.deleteDeviceById.bind(this);
         this.deleteDeviceByMac = this.deleteDeviceByMac.bind(this);
+        this.getAllDeviceSensorsByDeviceID = this.getAllDeviceSensorsByDeviceID.bind(this);
+        this.getAllDeviceSensorsByDeviceMac = this.getAllDeviceSensorsByDeviceMac.bind(this);
+        this.postSensorToDeviceByDeviceID = this.postSensorToDeviceByDeviceID.bind(this);
+    }
+
+    public async postSensorToDeviceByDeviceMac(req: any, res: any): Promise<Response> {
+
+        try {
+            if (!req.params?.mac) {
+                return res.status(400).send("Device mac is required as a parameter");
+            }
+
+            if (!req.body?.sensor) {
+                return res.status(400).send("Sensor is required in the body");
+            }
+
+            const device : IDevice = await this._deviceRepository.readDeviceByMacAddress(req.params.mac);
+            if (!device || device === undefined) {
+                return res.status(404).send("Device not found");
+            }
+
+            if (device.Sensors.map(sensor => sensor.UniqueIdentifier == req.body.sensor.UniqueIdentifier).includes(true)) {
+                return res.status(409).send("Sensor with that uniqidentifyer exists on device");
+            }
+
+
+            device.Sensors.push(req.body.sensor);
+            const updatedDevice : IDevice = await this._deviceRepository.putDevice(device);
+            if (!updatedDevice) {
+                return res.status(500).send("Failed to update device");
+            }
+            return res.status(200).send(updatedDevice);
+        } catch (err) {
+            Logger.error("Error updating device: ", err);
+            return res.status(500).send("Internal server error");
+        }    }
+
+    public async postSensorToDeviceByDeviceID(req: any, res: any): Promise<Response> {
+
+        try {
+            if (!req.params?.id) {
+                return res.status(400).send("Device id is required as a parameter");
+            }
+
+            if (!req.body?.sensor) {
+                return res.status(400).send("Sensor is required in the body");
+            }
+
+            const device : IDevice = await this._deviceRepository.readDeviceById(req.params.id);
+            if (!device || device === undefined) {
+                return res.status(404).send("Device not found");
+            }
+
+            if (device.Sensors.map(sensor => sensor.UniqueIdentifier == req.body.sensor.UniqueIdentifier).includes(true)) {
+                return res.status(409).send("Sensor with that uniqidentifyer exists on device");
+            }
+
+
+            device.Sensors.push(req.body.sensor);
+            const updatedDevice : IDevice = await this._deviceRepository.putDevice(device);
+            if (!updatedDevice) {
+                return res.status(500).send("Failed to update device");
+            }
+            return res.status(200).send(updatedDevice);
+        } catch (err) {
+            Logger.error("Error updating device: ", err);
+            return res.status(500).send("Internal server error");
+        }
+
+    }
+
+    public async getAllDeviceSensorsByDeviceID(req: any, res: any): Promise<Response> {
+
+        try {
+
+            if (!req.params?.id) {
+                return res.status(400).send("Device id is required as a parameter");
+            }
+
+            const device : IDevice = await this._deviceRepository.readDeviceById(req.params.id);
+            if (!device || device === undefined) {
+                return res.status(404).send("Device not found");
+            }
+
+            if (!device.Sensors) {
+                return res.status(404).send("Device has no sensors");
+            }
+
+            return res.status(200).send(device.Sensors);
+
+        } catch (err) {
+            Logger.error("Error fetching device by id: ", err);
+            return res.status(500).send("Internal server error");
+        }
+
+    }
+
+    public async getAllDeviceSensorsByDeviceMac(req: any, res: any): Promise<Response> {
+
+        try {
+
+            if (!req.params?.mac) {
+                return res.status(400).send("Device mac is required as a parameter");
+            }
+
+            const device : IDevice = await this._deviceRepository.readDeviceByMacAddress(req.params.mac);
+            if (!device || device === undefined) {
+                return res.status(404).send("Device not found");
+            }
+
+            if (!device.Sensors) {
+                return res.status(404).send("Device has no sensors");
+            }
+
+            return res.status(200).send(device.Sensors);
+
+        } catch (err) {
+            Logger.error("Error fetching device by mac: ", err);
+            return res.status(500).send("Internal server error");
+        }
     }
 
     public async putDevice(req: any, res: any): Promise<Response> {

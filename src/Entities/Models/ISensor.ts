@@ -4,4 +4,5 @@ export interface ISensor {
     SerialNumber?: string;
     LastChangeDate?: Date;
     Comment?: string;
+    Type?: EnumSensorType;
 }

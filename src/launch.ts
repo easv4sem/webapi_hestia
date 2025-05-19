@@ -23,6 +23,14 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (err instanceof SyntaxError && 'body' in err) {
+        Logger.warn("Malformed JSON in request body");
+        return res.status(400).json({ error: 'Malformed JSON in request body' });
+    }
+    next(err);
+});
+
 app.use(cookieParser());
 app.use('/api/devices/', deviceRoutes);
 app.use('/api/analytics/', analyticsRoutes);

@@ -1,6 +1,5 @@
 import express from "express";
 import DeviceController from "../Controller/deviceController.js";
-import {SensorReadingController} from "../Controller/SensorReadingController.js";
 import {DeviceRepositoryMongoDB} from "../Repository/DeviceRepositoryMongoDB.js";
 import {MongoDBClient} from "../Data/MongoDBClient.js";
 

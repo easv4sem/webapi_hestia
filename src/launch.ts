@@ -2,7 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from "cors";
 import cookieParser from 'cookie-parser';
-import http from 'http';
 import Logger from "./Infrastructure/Logger/logger.js";
 import {deviceRoutes} from "./Routes/deviceRoutes.js";
 import {analyticsRoutes} from "./Routes/analyticsRoutes.js";
@@ -38,6 +37,6 @@ app.use('/api/sensors', sensorRoutes);
 app.use('/api/user', userRouter);
 app.use('/api/notifications', notificationRoutes);
 
-const server: http.Server = app.listen(PORT, () =>{
+const server = app.listen(PORT, () =>{
     Logger.info("Server service has started on port: " + PORT);
 })

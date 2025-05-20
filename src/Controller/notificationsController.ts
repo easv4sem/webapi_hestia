@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { EnumAppNotificationType } from "../Entities/Enums/EnumAppNotificationType.js";
 import INotificationRepository from "../Repository/INotificationRepository.js";
 import Logger from "../Infrastructure/Logger/logger.js";
+import {error} from "winston";
 
 export interface INotificationsController {
     getAllNotifications(request: Request, response: Response): Promise<Response>;
@@ -110,7 +111,11 @@ export class NotificationsController implements INotificationsController {
             const createNotification =  await this._notificationsRepository.postNotification(notification);
             return response.status(201).send(createNotification);
 
-        } catch (error) {
+        } catch (error: any) {
+            if (error.message.includes("already exists")) {
+                return response.status(409).send(error.message);
+            }
+
             Logger.error("Error creating notification: ", error);
             return response.status(500).send("Internal server error");
         }

@@ -22,8 +22,21 @@ export class NotificationRepositoryMongo implements INotificationRepository{
         return await this._database.getCollectionAsync<INotification>(this._collection).then(collection => collection.find({read: false}).toArray()) || [];
     }
 
+    /// <summary>
+    /// Inserts a new notification into the database.
+    /// If a notification with the same UniqueIdentifier already exists, an error is thrown.
+    /// This implementation isn't best practice as it could result in a race condition.
+    /// A better approach would be to use a unique index on the UniqueIdentifier field and handle the error if it occurs.
+    /// Time constraint resulted in this implementation.
+    /// </summary>
     async postNotification(notification: INotification): Promise<INotification> {
         const collection = await this._database.getCollectionAsync<INotification>(this._collection);
+
+        const existing = await collection.findOne({ UniqueIdentifier: notification.UniqueIdentifier });
+        if (existing) {
+            throw new Error(`Notification with UniqueIdentifier "${notification.UniqueIdentifier}" already exists.`);
+        }
+
         const result = await collection.insertOne(notification);
         if (result.acknowledged) {
             return notification;

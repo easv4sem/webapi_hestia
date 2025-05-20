@@ -37,7 +37,7 @@ deviceRoutes.post("/id/:id/sensor/", postSensorToDeviceByDeviceID)
 deviceRoutes.post("/mac/:mac/sensor/", postSensorToDeviceByDeviceMac)
 
 // Heartbeat
-deviceRoutes.post  ("/heartbeat", )
+deviceRoutes.post("/heartbeat", postHeartbeat)
 
 
 

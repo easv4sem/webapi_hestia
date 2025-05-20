@@ -8,7 +8,7 @@ import {INotification} from "../Entities/Models/INotification.js";
 import {EnumAppNotificationType} from "../Entities/Enums/EnumAppNotificationType.js";
 import INotificationRepository from "../Repository/INotificationRepository.js";
 
-export default class StartHeartBeatMonitor {
+export default class HeartBeatMonitor {
     private _deviceRepository: IDeviceRepository;
     private intervalId?: NodeJS.Timeout;
     private _notificationRepository: INotificationRepository;

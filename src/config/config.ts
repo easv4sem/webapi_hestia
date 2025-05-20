@@ -4,7 +4,7 @@ export const DEBUG = true;
 
 export const HEARTBEAT = {
     OFFLINE_TREASHOLD_MINUTES: DEBUG ? 2 : 5,
-    CHECK_INTERVAL_MS: DEBUG ? 2000 : 5000
+    CHECK_INTERVAL_MS: DEBUG ? 20000 : 50000
 };
 
 if (DEBUG) {

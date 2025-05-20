@@ -16,10 +16,9 @@ export default class HeartbeatController {
 
 
         Logger.info("HeartbeatController");
-        if (!this._heartbeatService){
-            this._heartbeatService = new HeartBeatMonitor(this._deviceRepository, this._notificationRepository);
-            this._heartbeatService.start();
-        }
+
+        HeartBeatMonitor.getInstance(this._deviceRepository, this._notificationRepository);
+
 
         this.postHeartbeat = this.postHeartbeat.bind(this);
     }

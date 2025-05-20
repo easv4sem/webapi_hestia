@@ -3,6 +3,8 @@ import DeviceController from "../Controller/deviceController.js";
 import {SensorReadingController} from "../Controller/SensorReadingController.js";
 import {DeviceRepositoryMongoDB} from "../Repository/DeviceRepositoryMongoDB.js";
 import {MongoDBClient} from "../Data/MongoDBClient.js";
+import HeartbeatController from "../Controller/heartbeatController.js";
+import {NotificationRepositoryMongo} from "../Repository/NotificationRepositoryMongo.js";
 
 const deviceRoutes = express.Router();
 const mongoClient = new MongoDBClient(process.env.MONGO_DB_CONNECTION_STRING || "mongodb://mongo:27017/", process.env.MONGO_DB_NAME || "hestia");
@@ -19,8 +21,11 @@ const {
     getAllDeviceSensorsByDeviceMac,
     postSensorToDeviceByDeviceID,
     postSensorToDeviceByDeviceMac,
-    postHeartbeat
 } = new DeviceController(new DeviceRepositoryMongoDB(mongoClient, "devices"));
+
+const {
+    postHeartbeat
+} = new HeartbeatController(new DeviceRepositoryMongoDB(mongoClient, "devices"), new NotificationRepositoryMongo(mongoClient, "devices"));
 
 deviceRoutes.get("/id/:id", getDeviceById);
 deviceRoutes.get("/mac/:mac", getDeviceByMac);

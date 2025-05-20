@@ -24,7 +24,7 @@ export default class HeartBeatMonitor {
 
     public start() {
         this.intervalId = setInterval(async () => {
-            Logger.debug("HeartBeat Monitor: Checking device health...");
+            Logger.info("HeartBeat Monitor: Checking device health...");
 
             if (deviceStatus.size === 0) {
                 try {
@@ -39,7 +39,7 @@ export default class HeartBeatMonitor {
                         });
                     });
 
-                    Logger.debug(`Loaded ${devices.length} devices into heartbeat map.`);
+                    Logger.info(`Loaded ${devices.length} devices into heartbeat map.`);
                 } catch (err) {
                     Logger.error("Failed to load devices for heartbeat check:", err);
                 }

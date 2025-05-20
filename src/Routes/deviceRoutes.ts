@@ -6,7 +6,20 @@ import {MongoDBClient} from "../Data/MongoDBClient.js";
 const deviceRoutes = express.Router();
 const mongoClient = new MongoDBClient(process.env.MONGO_DB_CONNECTION_STRING || "mongodb://mongo:27017/", process.env.MONGO_DB_NAME || "hestia");
 
-const {getDeviceByMac, getDeviceById, getDevices, putDevice, postDevice, deleteDeviceByMac, deleteDeviceById, getAllDeviceSensorsByDeviceID, getAllDeviceSensorsByDeviceMac, postSensorToDeviceByDeviceID, postSensorToDeviceByDeviceMac} = new DeviceController(new DeviceRepositoryMongoDB(mongoClient, "devices"));
+const {
+    getDeviceByMac,
+    getDeviceById,
+    getDevices,
+    putDevice,
+    postDevice,
+    deleteDeviceByMac,
+    deleteDeviceById,
+    getAllDeviceSensorsByDeviceID,
+    getAllDeviceSensorsByDeviceMac,
+    postSensorToDeviceByDeviceID,
+    postSensorToDeviceByDeviceMac,
+    postHeartbeat
+} = new DeviceController(new DeviceRepositoryMongoDB(mongoClient, "devices"));
 
 deviceRoutes.get("/id/:id", getDeviceById);
 deviceRoutes.get("/mac/:mac", getDeviceByMac);
@@ -22,6 +35,8 @@ deviceRoutes.get("/mac/:mac/sensors", getAllDeviceSensorsByDeviceMac)
 deviceRoutes.post("/id/:id/sensor/", postSensorToDeviceByDeviceID)
 deviceRoutes.post("/mac/:mac/sensor/", postSensorToDeviceByDeviceMac)
 
+// Heartbeat
+deviceRoutes.post  ("/heartbeat", )
 
 
 

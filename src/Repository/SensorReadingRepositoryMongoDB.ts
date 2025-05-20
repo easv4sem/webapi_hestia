@@ -1,7 +1,8 @@
-import { ISensorReadingRepository } from "./ISensorReadingRepository";
-import { MongoDBClient } from "../Data/MongoDBClient.js";
+import {ISensorReadingRepository} from "./ISensorReadingRepository";
+import {MongoDBClient} from "../Data/MongoDBClient.js";
 import Logger from "../Infrastructure/Logger/logger.js";
-import { ISensorData } from "../Entities/Models/ISensorData";
+import {ISensorData} from "../Entities/Models/ISensorData";
+import {ESensorTypes} from "../Entities/Enums/ESensorTypes.js"
 
 
 export class SensorReadingRepositoryMongoDB implements ISensorReadingRepository {
@@ -37,17 +38,32 @@ export class SensorReadingRepositoryMongoDB implements ISensorReadingRepository 
                        }
                     }
 
-                    let type: string = key;
+                    let type: ESensorTypes = ESensorTypes.unknown;
 
-                    if (typeof data === "object" && data !== null) {
-                        const innerKey = Object.keys(data)
-                        if (innerKey.length === 1) {
-                            type = innerKey[0];
-                        }
+                    switch (extractInnerType(data)) {
+                        case "Camera":
+                            type = ESensorTypes.camera;
+                            break;
+
+                        case "bme280":
+                            type = ESensorTypes.bme280;
+                            break;
+
+                        case "MQ-135":
+                            type = ESensorTypes.mq135mq2;
+                            break;
+
+                        case "YL-69":
+                            type = ESensorTypes.yl69;
+                            break;
+
+                        default:
+                            type = ESensorTypes.unknown;
+                            break;
                     }
 
                     sensorDataList.push({
-                        SensorUniqeIdentifier: key,
+                        SensorUniqueIdentifier: key,
                         PIUniqueIdentifier: PiMac,
                         Type: type,
                         TimeStamp: TimeStamp,
@@ -76,4 +92,17 @@ export class SensorReadingRepositoryMongoDB implements ISensorReadingRepository 
 
 
 }
+
+function extractInnerType(entry: any): string | undefined {
+    if (typeof entry !== "object" || entry === null) return undefined;
+
+    const keys = Object.keys(entry);
+    if (keys.length === 1) {
+        const inner = entry[keys[0]];
+        return inner?.Type;
+    }
+
+    return undefined;
+}
+
 

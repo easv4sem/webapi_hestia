@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Logger from "../Infrastructure/Logger/logger.js";
 import {ISensorReadingRepository} from "../Repository/ISensorReadingRepository";
+import {ISensorReading} from "../Entities/Models/ISensorReading";
 
 export class SensorReadingController {
 
@@ -9,6 +10,7 @@ export class SensorReadingController {
     constructor(sensorReadingRepository: ISensorReadingRepository) {
         this.sensorReadingRepository = sensorReadingRepository;
         this.getSensorData = this.getSensorData.bind(this);
+        this.getReadingsFromDeviceMac = this.getReadingsFromDeviceMac.bind(this);
     }
 
     public async getSensorData(req: Request, res: Response): Promise<Response> {
@@ -27,7 +29,30 @@ export class SensorReadingController {
             return res.send(result);
 
         }catch(err){
-            Logger.error("Error getting sensor data", err);
+            Logger.error("Error inserting sensor data", err);
+            return res.status(500).send("Error inserting sensor data");
+        }
+
+    }
+
+    public async getReadingsFromDeviceMac(req: Request, res: Response): Promise<Response> {
+
+        try {
+
+            if (!req.params?.mac){
+                Logger.info(req.params.mac);
+                return res.status(400).send("Request body is required");
+            }
+
+            const sensorReading: ISensorReading = await this.sensorReadingRepository.getReadingsFromDeviceMac(req.params.mac);
+            if (!sensorReading){
+                return res.status(400).send("No sensor data");
+            }
+
+            return res.status(200).send(sensorReading);
+
+        } catch (err){
+            Logger.error("Error getting sensor data ", err);
             return res.status(500).send("Error getting sensor data");
         }
 

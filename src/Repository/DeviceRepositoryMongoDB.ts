@@ -2,6 +2,7 @@ import {IDeviceRepository} from "./IDeviceRepository";
 import {IDevice} from "../Entities/Models/IDevice";
 import {MongoDBClient} from "../Data/MongoDBClient.js";
 import { EDeviceModes } from "../Entities/Enums/EDeviceModes.js";
+import Logger from "../Infrastructure/Logger/logger.js";
 
 export class DeviceRepositoryMongoDB implements IDeviceRepository{
 
@@ -53,6 +54,12 @@ export class DeviceRepositoryMongoDB implements IDeviceRepository{
 
     async putDevice(device: IDevice): Promise<IDevice> {
         const collection = await this.database.getCollectionAsync<IDevice>(this.collection);
+
+        const oldDevice = await collection.findOne({Mac: device.Mac});
+        Logger.warn("Device is identical")
+        if (oldDevice === device) return device;
+
+
         const result = await collection.updateOne({Mac: device.Mac}, {$set: device});
         if (result.modifiedCount > 0) {
             return device;

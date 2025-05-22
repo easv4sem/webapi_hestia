@@ -70,9 +70,14 @@ export default class HeartbeatController {
 
             // Update and persist
             device.LastHeartbeat = heartbeatDate;
-            const updatedDevice: IDevice = await this._deviceRepository.putDevice(device);
+            try {
+                const updatedDevice: IDevice = await this._deviceRepository.putDevice(device);
+                return res.status(200).send(updatedDevice);
 
-            return res.status(200).send(updatedDevice);
+            } catch (e) {
+                return res.status(409).send("failed to put - data is the same", e);
+            }
+
 
         } catch (err) {
             Logger.error("Error updating heartbeat", err);

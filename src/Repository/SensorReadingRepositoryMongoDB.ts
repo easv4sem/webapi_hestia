@@ -3,6 +3,7 @@ import {MongoDBClient} from "../Data/MongoDBClient.js";
 import Logger from "../Infrastructure/Logger/logger.js";
 import {ISensorData} from "../Entities/Models/ISensorData";
 import {ESensorTypes} from "../Entities/Enums/ESensorTypes.js"
+import {ISensorReading} from "../Entities/Models/ISensorReading";
 
 
 export class SensorReadingRepositoryMongoDB implements ISensorReadingRepository {
@@ -14,6 +15,15 @@ export class SensorReadingRepositoryMongoDB implements ISensorReadingRepository 
         this.database = database;
         this.collection = collection;
 
+    }
+
+    async getReadingsFromDeviceMac(mac: string) {
+        return await this.database.getCollectionAsync<ISensorReading>(this.collection)
+            .then(collection => collection.find({PIUniqueIdentifier: mac}).toArray()) || undefined;
+    }
+    async getReadingsFromSensor(type: string) {
+        return await this.database.getCollectionAsync<ISensorReading>(this.collection)
+            .then(collection => collection.find({Type: type})) || undefined;
     }
 
     // @ts-ignore

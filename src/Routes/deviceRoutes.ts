@@ -1,5 +1,6 @@
 import express from "express";
 import DeviceController from "../Controller/deviceController.js";
+import {SensorReadingController} from "../Controller/SensorReadingController.js";
 import {DeviceRepositoryMongoDB} from "../Repository/DeviceRepositoryMongoDB.js";
 import {MongoDBClient} from "../Data/MongoDBClient.js";
 import HeartbeatController from "../Controller/heartbeatController.js";
@@ -41,7 +42,7 @@ deviceRoutes.post("/id/:id/sensor/", postSensorToDeviceByDeviceID)
 deviceRoutes.post("/mac/:mac/sensor/", postSensorToDeviceByDeviceMac)
 
 // Heartbeat
-deviceRoutes.post  ("/heartbeat", postHeartbeat)
+deviceRoutes.post("/heartbeat", postHeartbeat)
 
 
 

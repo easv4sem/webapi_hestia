@@ -39,18 +39,29 @@ export class SensorReadingRepositoryMongoDB implements ISensorReadingRepository 
                 if (key !== "Mac-Add" && key !== "Date") {
                     const innerData = rawSensorData[key];
                     let data: any;
+                    let SensorType: string | undefined;
 
                     if (typeof innerData === "string") {
-                       try {
+                        try {
                             data = JSON.parse(innerData);
-                       } catch (error) {
-                           Logger.error("Error parsing inner data: " + error);
-                       }
+                        } catch (error) {
+                            Logger.error(`Error parsing inner data for ${key}:`, error);
+                            data = innerData;
+                        }
+                    } else {
+                        data = innerData;
+                    }
+
+                    if (typeof data === "object") {
+                        const firstInner = Object.values(data)[0];
+                        if (firstInner && typeof firstInner === "object") {
+                            SensorType = firstInner["Type"] ?? null;
+                        }
                     }
 
                     let type: ESensorTypes = ESensorTypes.unknown;
 
-                    switch (extractInnerType(data)) {
+                    switch (SensorType) {
                         case "Camera":
                             type = ESensorTypes.camera;
                             break;

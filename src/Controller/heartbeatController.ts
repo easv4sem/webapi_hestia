@@ -3,7 +3,7 @@ import INotificationRepository from "../Repository/INotificationRepository.js";
 import {RegexUtils} from "../Utilities/regexUtils.js";
 import Logger from "../Infrastructure/Logger/logger.js";
 import {IDevice} from "../Entities/Models/IDevice.js";
-import StartHeartBeatMonitor from "../Service/heartBeatService.js";
+import HeartBeatMonitor from "../Service/heartBeatService.js";
 
 export default class HeartbeatController {
     private readonly _deviceRepository: IDeviceRepository;
@@ -14,9 +14,11 @@ export default class HeartbeatController {
         this._deviceRepository = deviceRepository;
         this._notificationRepository = notificationRepository;
 
-        if (!this._heartbeatService){
-            this._heartbeatService = new StartHeartBeatMonitor(this._deviceRepository, this._notificationRepository);
-        }
+
+        Logger.info("HeartbeatController");
+
+        HeartBeatMonitor.getInstance(this._deviceRepository, this._notificationRepository);
+
 
         this.postHeartbeat = this.postHeartbeat.bind(this);
     }

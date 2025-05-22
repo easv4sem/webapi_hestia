@@ -34,6 +34,9 @@ services:
       JWT_ISSUER: your-issuer
       JWT_AUDIENCE: your-audience
       SEQ_URL: http://seq:5341
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
 
   cache:
     image: redis:6.2-alpine

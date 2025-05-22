@@ -2,7 +2,8 @@ import {IDeviceRepository} from "../Repository/IDeviceRepository.js";
 import {RegexUtils} from "../Utilities/regexUtils.js";
 import Logger from "../Infrastructure/Logger/logger.js";
 import {IDevice} from "../Entities/Models/IDevice";
-import logger from "../Infrastructure/Logger/logger.js";
+import {DeviceRepositoryReadies, IDeviceRepositoryReadies} from "../Repository/DeviceRepositoryRedies";
+import {IRedisClient, RedisClient} from "../Data/ReadisClient";
 
 interface IDeviceController {
     getDeviceByMac(req: any, res: any): Promise<Response>;
@@ -21,9 +22,12 @@ interface IDeviceController {
 
 export default class DeviceController implements IDeviceController {
     private readonly _deviceRepository: IDeviceRepository;
+    private readonly _readisRepository: IDeviceRepositoryReadies;
 
-    constructor(deviceRepository: IDeviceRepository) {
+
+    constructor(deviceRepository: IDeviceRepository, deviceRepositoryReadies: IDeviceRepositoryReadies) {
         this._deviceRepository = deviceRepository;
+        this._readisRepository = deviceRepositoryReadies;
         this.getDevices = this.getDevices.bind(this);
         this.getDeviceById = this.getDeviceById.bind(this);
         this.getDeviceByMac = this.getDeviceByMac.bind(this);
@@ -34,11 +38,13 @@ export default class DeviceController implements IDeviceController {
         this.getAllDeviceSensorsByDeviceID = this.getAllDeviceSensorsByDeviceID.bind(this);
         this.getAllDeviceSensorsByDeviceMac = this.getAllDeviceSensorsByDeviceMac.bind(this);
         this.postSensorToDeviceByDeviceID = this.postSensorToDeviceByDeviceID.bind(this);
+
     }
 
     public async postSensorToDeviceByDeviceMac(req: any, res: any): Promise<Response> {
 
         try {
+
             if (!req.params?.mac) {
                 return res.status(400).send("Device mac is required as a parameter");
             }
@@ -62,12 +68,15 @@ export default class DeviceController implements IDeviceController {
             if (!updatedDevice) {
                 return res.status(500).send("Failed to update device");
             }
+
+            // Update device in cash
+            await this._readisRepository.cashDevice(device);
+
             return res.status(200).send(updatedDevice);
         } catch (err) {
             Logger.error("Error updating device: ", err);
             return res.status(500).send("Internal server error");
         }    }
-
     public async postSensorToDeviceByDeviceID(req: any, res: any): Promise<Response> {
 
         try {
@@ -94,6 +103,10 @@ export default class DeviceController implements IDeviceController {
             if (!updatedDevice) {
                 return res.status(500).send("Failed to update device");
             }
+
+
+            // Update device in cash
+            await this._readisRepository.cashDevice(device);
             return res.status(200).send(updatedDevice);
         } catch (err) {
             Logger.error("Error updating device: ", err);
@@ -101,7 +114,6 @@ export default class DeviceController implements IDeviceController {
         }
 
     }
-
     public async getAllDeviceSensorsByDeviceID(req: any, res: any): Promise<Response> {
 
         try {
@@ -127,7 +139,6 @@ export default class DeviceController implements IDeviceController {
         }
 
     }
-
     public async getAllDeviceSensorsByDeviceMac(req: any, res: any): Promise<Response> {
 
         try {
@@ -152,7 +163,6 @@ export default class DeviceController implements IDeviceController {
             return res.status(500).send("Internal server error");
         }
     }
-
     public async putDevice(req: any, res: any): Promise<Response> {
         try {
 
@@ -173,6 +183,8 @@ export default class DeviceController implements IDeviceController {
             if (!updatedDevice) {
                 return res.status(500).send("Failed to update device");
             }
+            // Update device in cash
+            await this._readisRepository.cashDevice(updatedDevice);
             return res.status(200).send(updatedDevice);
 
 
@@ -202,6 +214,10 @@ export default class DeviceController implements IDeviceController {
             }
 
             const newDevice : IDevice = await this._deviceRepository.postDevice(device);
+
+            // Save device to cache
+            await this._readisRepository.cashDevice(newDevice);
+
             return res.status(201).send(newDevice);
 
         } catch (err) {
@@ -224,6 +240,9 @@ export default class DeviceController implements IDeviceController {
         if (!deleted) {
             return res.status(500).send("Failed to delete device");
         }
+        // delete device from cash
+        await this._readisRepository.delDeviceAsyncByMac(device.Mac);
+
         return res.status(200).send("Device deleted successfully");
 
     }
@@ -233,7 +252,7 @@ export default class DeviceController implements IDeviceController {
         }
 
         // delete the device if it exists
-        const device : IDevice = await this._deviceRepository.readDeviceById(req.params.mac);
+        const device : IDevice = await this._deviceRepository.readDeviceByMacAddress(req.params.mac);
         if (!device) {
             return res.status(404).send("Device not found");
         }
@@ -242,6 +261,8 @@ export default class DeviceController implements IDeviceController {
         if (!deleted) {
             return res.status(500).send("Failed to delete device");
         }
+        // delete device from cash
+        await this._readisRepository.delDeviceAsyncByMac(req.params.mac);
         return res.status(200).send("Device deleted successfully");
 
     }
@@ -267,6 +288,7 @@ export default class DeviceController implements IDeviceController {
 
     }
     public async getDeviceByMac(req: any, res: any): Promise<Response> {
+
         try {
             if (!req.params?.mac) {
                 return res.status(400).send("Device ID is required");
@@ -277,10 +299,23 @@ export default class DeviceController implements IDeviceController {
                 return res.status(400).send("Invalid Device ID, must be a valid mac address for the device");
             }
 
+            // check if device is in cash
+            const cachedDevice : IDevice = await this._readisRepository.readDeviceAsyncByMac(req.params.mac);
+            if (cachedDevice) {
+                Logger.info("Device found in cache", {mac: req.params.mac});
+                return res.status(200).send(cachedDevice);
+            }
+
+
             const device : IDevice = await this._deviceRepository.readDeviceByMacAddress(req.params.mac);
             if (!device || device === undefined) {
                 return res.status(404).send("Device not found");
             }
+
+            // save device to cache
+            await this._readisRepository.cashDevice(device);
+            Logger.info("Device saved to cache", {mac: req.params.mac});
+
             return await res.status(200).send(device);
         } catch (err) {
             Logger.error("Error fetching device by mac address: ", err);
@@ -291,11 +326,27 @@ export default class DeviceController implements IDeviceController {
     public async getDevices(req: any, res: any): Promise<Response> {
 
         try {
+
+            // Check if the devices are in cache
+            const cachedDevices : IDevice[] = await this._readisRepository.readAllDevicesAsync();
+            if (cachedDevices && cachedDevices.length > 0) {
+                Logger.info("Devices found in cache");
+                return res.status(200).send(cachedDevices);
+            }
+
+            // If not in cache, fetch from the repository
             const devices : IDevice[] = await this._deviceRepository.readAllDevices();
 
             if (devices.length === 0) {
                 return res.status(404).send("No devices found");
             }
+
+            // Save devices to cache
+            if (devices && devices.length > 0) {
+                await this._readisRepository.cashAllDevices(devices);
+                Logger.info("Devices saved to cache");
+            }
+
 
             return res.status(200).send(devices);
 

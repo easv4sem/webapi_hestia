@@ -4,7 +4,7 @@ export interface INotification {
     UniqueIdentifier: string;
     PiUniqeIdentifier?: string;
     DateCreated: Date;
-    IsRead?: boolean;
+    IsRead: boolean;
     Title?: string;
     SubTitle?: string;
     Type?: EnumAppNotificationType;

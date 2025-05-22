@@ -24,7 +24,7 @@ const {
 
 const {
     postHeartbeat
-} = new HeartbeatController(new DeviceRepositoryMongoDB(mongoClient, "devices"), new NotificationRepositoryMongo(mongoClient, "devices"));
+} = new HeartbeatController(new DeviceRepositoryMongoDB(mongoClient, "devices"), new NotificationRepositoryMongo(mongoClient, process.env.MONGO_DB_NOTIFICATIONS_COLLECTION || "notifications"));
 
 deviceRoutes.get("/id/:id", getDeviceById);
 deviceRoutes.get("/mac/:mac", getDeviceByMac);

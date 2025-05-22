@@ -4,6 +4,7 @@ import {RegexUtils} from "../Utilities/regexUtils.js";
 import Logger from "../Infrastructure/Logger/logger.js";
 import {IDevice} from "../Entities/Models/IDevice.js";
 import HeartBeatMonitor from "../Service/heartBeatService.js";
+import {deviceStatus} from "../Entities/Models/DeviceStatus.js";
 
 export default class HeartbeatController {
     private readonly _deviceRepository: IDeviceRepository;
@@ -73,6 +74,13 @@ export default class HeartbeatController {
             // Update and persist
             device.LastHeartbeat = heartbeatDate;
             const updatedDevice: IDevice = await this._deviceRepository.putDevice(device);
+            deviceStatus.set(mac, {
+                LastHeartbeat: updatedDevice.LastHeartbeat,
+                Mode: updatedDevice.Mode,
+                PIUniqueIdentifier: updatedDevice.PIUniqueIdentifier,
+                PIDisplayName: updatedDevice.PIDisplayName,
+            })
+
 
             return res.status(200).send(updatedDevice);
 

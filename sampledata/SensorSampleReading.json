@@ -1,52 +1,53 @@
 [
     {
-        "PIUniqueIdentifier": "RPI001",
-        "SensorIdentifier": "SEN-CAM-01",
-        "Type": "camera",
-        "Timestamp": "2025-05-18T10:00:00Z",
-        "DATA": {
-            "MotionDetected": true,
-            "ImageUrl": "https://example.com/image/001.jpg"
+        "_id": "682efedaaa5adc1b2389b1ed",
+        "SensorUniqueIdentifier": "Moisture",
+        "PIUniqueIdentifier": "dc:a6:32:e5:21:92",
+        "Type": 3,
+        "TimeStamp": "2025-05-22 12:39:22",
+        "Data": {
+            "YL-69": {
+                "raw_data": 65471,
+                "percent": 0.1,
+                "Type": "YL-69"
+            }
         }
     },
     {
-        "PIUniqueIdentifier": "RPI001",
-        "SensorIdentifier": "SEN-BME-01",
-        "Type": "bme280",
-        "Timestamp": "2025-05-18T10:00:00Z",
-        "DATA": {
-            "Temperature": 22.5,
-            "Humidity": 55.2,
-            "Pressure": 1013.6
+        "_id": "682efedaaa5adc1b2389b1ee",
+        "SensorUniqueIdentifier": "Camera",
+        "PIUniqueIdentifier": "dc:a6:32:e5:21:92",
+        "Type": 4,
+        "TimeStamp": "2025-05-22 12:39:22",
+        "Data": 1
+    },
+    {
+        "_id": "682efedaaa5adc1b2389b1ef",
+        "SensorUniqueIdentifier": "PPM",
+        "PIUniqueIdentifier": "dc:a6:32:e5:21:92",
+        "Type": 2,
+        "TimeStamp": "2025-05-22 12:39:22",
+        "Data": {
+            "MQ-135": {
+                "raw_data": 3651,
+                "ppm": 55.7,
+                "Type": "MQ-135"
+            }
         }
     },
     {
-        "PIUniqueIdentifier": "RPI002",
-        "SensorIdentifier": "SEN-GAS-01",
-        "Type": "mq135mq2",
-        "Timestamp": "2025-05-18T10:01:00Z",
-        "DATA": {
-            "Raw": 534,
-            "PPM": 120.7
-        }
-    },
-    {
-        "PIUniqueIdentifier": "RPI002",
-        "SensorIdentifier": "SEN-SOIL-01",
-        "Type": "soilMoisture",
-        "Timestamp": "2025-05-18T10:01:00Z",
-        "DATA": {
-            "MoisturePercent": 32.5
-        }
-    },
-    {
-        "PIUniqueIdentifier": "RPI003",
-        "SensorIdentifier": "SEN-UNK-01",
-        "Type": "unknown",
-        "Timestamp": "2025-05-18T10:02:00Z",
-        "DATA": {
-            "Note": "Sensor type not identified",
-            "Value": 9999
+        "_id": "682efedaaa5adc1b2389b1f0",
+        "SensorUniqueIdentifier": "Barometer",
+        "PIUniqueIdentifier": "dc:a6:32:e5:21:92",
+        "Type": 1,
+        "TimeStamp": "2025-05-22 12:39:22",
+        "Data": {
+            "bme280": {
+                "Temperature": 25.062603193894027,
+                "Pressure": 1004.1218641056563,
+                "Humidity": 34.964195227791485,
+                "Type": "bme280"
+            }
         }
     }
 ]

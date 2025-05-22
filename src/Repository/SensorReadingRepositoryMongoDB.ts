@@ -21,9 +21,9 @@ export class SensorReadingRepositoryMongoDB implements ISensorReadingRepository 
         return await this.database.getCollectionAsync<ISensorReading>(this.collection)
             .then(collection => collection.find({PIUniqueIdentifier: mac}).toArray()) || undefined;
     }
-    async getReadingsFromSensor(type: string) {
+    async getReadingsFromSensor(type: number) {
         return await this.database.getCollectionAsync<ISensorReading>(this.collection)
-            .then(collection => collection.find({Type: type})) || undefined;
+            .then(collection => collection.find({Type: type}).toArray()) || undefined;
     }
 
     // @ts-ignore
@@ -114,16 +114,6 @@ export class SensorReadingRepositoryMongoDB implements ISensorReadingRepository 
 
 }
 
-function extractInnerType(entry: any): string | undefined {
-    if (typeof entry !== "object" || entry === null) return undefined;
 
-    const keys = Object.keys(entry);
-    if (keys.length === 1) {
-        const inner = entry[keys[0]];
-        return inner?.Type;
-    }
-
-    return undefined;
-}
 
 

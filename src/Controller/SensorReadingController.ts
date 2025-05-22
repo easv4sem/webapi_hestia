@@ -11,6 +11,7 @@ export class SensorReadingController {
         this.sensorReadingRepository = sensorReadingRepository;
         this.getSensorData = this.getSensorData.bind(this);
         this.getReadingsFromDeviceMac = this.getReadingsFromDeviceMac.bind(this);
+        this.getReadingsFromSensorType = this.getReadingsFromSensorType.bind(this);
     }
 
     public async getSensorData(req: Request, res: Response): Promise<Response> {
@@ -52,8 +53,33 @@ export class SensorReadingController {
             return res.status(200).send(sensorReading);
 
         } catch (err){
-            Logger.error("Error getting sensor data ", err);
-            return res.status(500).send("Error getting sensor data");
+            Logger.error("Error getting sensor data from mac", err);
+            return res.status(500).send("Error getting sensor data from mac");
+        }
+
+    }
+
+    public async getReadingsFromSensorType(req: Request, res: Response): Promise<Response> {
+
+        try {
+            if (!req.params?.type){
+                Logger.info(req.params.type);
+                return res.status(400).send("Type is required");
+            }
+
+            const type: number = parseInt(req.params.type);
+
+            const sensorReading: ISensorReading = await this.sensorReadingRepository.getReadingsFromSensor(type);
+            if (!sensorReading){
+                return res.status(400).send("No sensor data");
+            }
+
+            Logger.info("Sensor Readings ", sensorReading);
+            return res.status(200).send(sensorReading);
+
+        }catch(err){
+            Logger.error("Error getting sensor readings from type", err);
+            return res.status(500).send("Error getting sensor readings from type");
         }
 
     }

@@ -6,7 +6,7 @@ export interface ISensorReadingRepository {
 
     getReadingsFromDeviceMac(mac: string);
 
-    getReadingsFromSensor(type: string);
+    getReadingsFromSensor(type: number);
 
 
 }

@@ -8,7 +8,7 @@ export class SensorRepository implements ISensorReadingRepository {
     private readonly databaseService : IMariaDBService = new MariaDBService();
 
     // @ts-ignore
-    async readAllSensors(id: string | QueryString.ParsedQs | (string | QueryString.ParsedQs)[], range: string | QueryString.ParsedQs | (string | QueryString.ParsedQs)[]) {
+    async insertSensorReadings(id: string | QueryString.ParsedQs | (string | QueryString.ParsedQs)[], range: string | QueryString.ParsedQs | (string | QueryString.ParsedQs)[]) {
 
         const todaysDate = new Date();
         const todaysDateString: string = todaysDate.toISOString().split("T")[0];

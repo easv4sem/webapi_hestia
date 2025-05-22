@@ -7,6 +7,11 @@ export const HEARTBEAT = {
     CHECK_INTERVAL_MS: DEBUG ? 120000 : 240000
 };
 
+
+export const READIES_CONFIG = {
+  DEVICE_TTL_SECONDS: 60 // time to live for devices in readis. this value should be maximum half of [CHECK_INTERVAL_MS]
+};
+
 if (DEBUG) {
     Logger.warn('[DEBUG MODE] Debug mode is enabled. This should not be used in production.');
     //Add variables to the log if changed for debug mode

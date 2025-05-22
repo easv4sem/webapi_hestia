@@ -1,6 +1,7 @@
 import {IDevice} from "../Entities/Models/IDevice";
 import {RedisClient} from "../Data/ReadisClient.js";
 import Logger from "../Infrastructure/Logger/logger.js";
+import {READIES_CONFIG} from "../config/config";
 
 export interface IDeviceRepositoryReadies {
     readDeviceAsyncByMac(mac: string): Promise<IDevice | undefined>;
@@ -13,7 +14,7 @@ export interface IDeviceRepositoryReadies {
 export class DeviceRepositoryReadies implements IDeviceRepositoryReadies {
 
     private ReadiesClient: RedisClient;
-    private static readonly DEVICE_TIME_TO_LIVE_SECONDS = 30; // 30 seconds
+    private static readonly DEVICE_TIME_TO_LIVE_SECONDS = READIES_CONFIG.DEVICE_TTL_SECONDS;
     private static readonly DEVICE_KEY_PREFIX = 'device:';
     private static readonly DEVICE_KEY_PREFIX_ALL_DEVICES = 'all:device:';
 

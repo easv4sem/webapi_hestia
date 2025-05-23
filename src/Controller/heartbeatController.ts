@@ -9,14 +9,10 @@ import {deviceStatus} from "../Entities/Models/DeviceStatus.js";
 export default class HeartbeatController {
     private readonly _deviceRepository: IDeviceRepository;
     private readonly _notificationRepository: INotificationRepository;
-    private readonly _heartbeatService: any;
 
     constructor(deviceRepository: IDeviceRepository, notificationRepository: INotificationRepository) {
         this._deviceRepository = deviceRepository;
         this._notificationRepository = notificationRepository;
-
-
-        Logger.info("HeartbeatController");
 
         HeartBeatMonitor.getInstance(this._deviceRepository, this._notificationRepository);
 

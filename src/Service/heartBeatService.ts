@@ -1,12 +1,12 @@
-import {deviceStatus} from "../Entities/Models/DeviceStatus.js";
-import {IDevice} from "../Entities/Models/IDevice.js";
-import {IDeviceRepository} from "../Repository/IDeviceRepository.js";
+import {deviceStatus} from "../Entities/Models/Device/DeviceStatus";
+import {IDevice} from "../Entities/Models/Device/IDevice";
+import {IDeviceRepository} from "../Repository/Device/IDeviceRepository";
 import { HEARTBEAT_CONFIG } from "../config/config.js";
 import Logger from "../Infrastructure/Logger/logger.js";
 import {EDeviceModes} from "../Entities/Enums/EDeviceModes.js";
-import {INotification} from "../Entities/Models/INotification.js";
+import {INotification} from "../Entities/Models/Notification/INotification";
 import {EnumAppNotificationType} from "../Entities/Enums/EnumAppNotificationType.js";
-import INotificationRepository from "../Repository/INotificationRepository.js";
+import INotificationRepository from "../Repository/Notification/INotificationRepository";
 import {DEBUG} from "../config/config.js";
 
 export default class HeartBeatMonitor {
@@ -16,7 +16,7 @@ export default class HeartBeatMonitor {
     private _notificationRepository: INotificationRepository;
 
     ///Debugging helper
-    private debug = (msg: string) => DEBUG && Logger.info(`[HEARTBEAT DEBUG] ${msg}`);
+    private debug = (msg: string) => DEBUG && Logger.info(`[HEARTBEAT SERVICE DEBUG] ${msg}`);
 
     getInterval(): number {
         return HEARTBEAT_CONFIG.CHECK_INTERVAL_MS;

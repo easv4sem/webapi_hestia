@@ -3,10 +3,16 @@
  * It also declares a method for executing a request.
  * https://refactoring.guru/design-patterns/chain-of-responsibility/typescript/example
  */
+import {ISensorData} from "../Entities/Models/Sensor/ISensorData";
 
 export interface IHandler {
     setNext(handler: IHandler): IHandler;
     handle(request : any, response : any): any;
+}
+
+export interface IAlertHandler {
+    setNext(handler: IAlertHandler): IAlertHandler;
+    handle(sensorData: ISensorData): any;
 }
 
 /**
@@ -27,6 +33,22 @@ export abstract class AbstractHandler implements IHandler
             return this.nextHandler.handle(request, response);
         }
 
+        return null;
+    }
+}
+
+export abstract class AlertHandler implements IAlertHandler{
+    private nextHandler: AlertHandler;
+
+    public setNext(handler : AlertHandler) {
+        this.nextHandler = handler;
+        return handler;
+    }
+
+    public handle(sensorData: ISensorData): any {
+        if (this.nextHandler) {
+            return this.nextHandler.handle(sensorData);
+        }
         return null;
     }
 }

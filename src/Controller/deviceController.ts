@@ -1,9 +1,8 @@
-import {IDeviceRepository} from "../Repository/IDeviceRepository.js";
+import {IDeviceRepository} from "../Repository/Device/IDeviceRepository";
 import {RegexUtils} from "../Utilities/regexUtils.js";
 import Logger from "../Infrastructure/Logger/logger.js";
-import {IDevice} from "../Entities/Models/IDevice";
-import {DeviceRepositoryReadies, IDeviceRepositoryReadies} from "../Repository/DeviceRepositoryRedies";
-import {IRedisClient, RedisClient} from "../Data/ReadisClient";
+import {IDevice} from "../Entities/Models/Device/IDevice";
+import { IDeviceRepositoryReadies} from "../Repository/Device/DeviceRepositoryRedies";
 
 interface IDeviceController {
     getDeviceByMac(req: any, res: any): Promise<Response>;

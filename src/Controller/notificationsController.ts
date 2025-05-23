@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { EnumAppNotificationType } from "../Entities/Enums/EnumAppNotificationType.js";
-import INotificationRepository from "../Repository/INotificationRepository.js";
+import INotificationRepository from "../Repository/Notification/INotificationRepository";
 import Logger from "../Infrastructure/Logger/logger.js";
-import {error} from "winston";
 
 export interface INotificationsController {
     getAllNotifications(request: Request, response: Response): Promise<Response>;

@@ -31,8 +31,6 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
     next(err);
 });
 
-
-
 app.use(cookieParser());
 app.use('/api/devices/', deviceRoutes);
 app.use('/api/analytics/', analyticsRoutes);

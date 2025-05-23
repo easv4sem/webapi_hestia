@@ -1,7 +1,7 @@
 import ITokenProvider from "../InterfaceAdapters/ITokenProvider.js";
-import { IUser } from "../Entities/Models/IUser.js";
+import { IUser } from "../Entities/Models/User/IUser";
 import { ERoles } from "../Entities/Enums/ERoles.js";
-import { IUserRepository } from "../Repository/IUserRepository.js";
+import { IUserRepository } from "../Repository/User/IUserRepository";
 import bcrypt from "bcryptjs";
 import {UserAlreadyExistsError, UserNotFoundOrPasswordWrongError} from "../Entities/Errors/UserErrors.js";
 import Logger from "../Infrastructure/Logger/logger.js";

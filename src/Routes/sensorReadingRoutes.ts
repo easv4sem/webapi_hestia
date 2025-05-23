@@ -1,8 +1,8 @@
 import express from "express";
-import { SensorReadingController } from "../Controller/SensorReadingController.js";
-import { ISensorReadingRepository } from "../Repository/ISensorReadingRepository";
+import { SensorReadingController } from "../Controller/Sensor/sensorReadingController";
+import { ISensorReadingRepository } from "../Repository/Sensor/ISensorReadingRepository";
 import {MongoDBClient} from "../Data/MongoDBClient.js";
-import {SensorReadingRepositoryMongoDB} from "../Repository/SensorReadingRepositoryMongoDB.js";
+import {SensorReadingRepositoryMongoDB} from "../Repository/Sensor/SensorReadingRepositoryMongoDB";
 
 
 const sensorReadingRoutes = express.Router();

@@ -1,16 +1,16 @@
 import express from 'express';
 import {AbstractHandler} from "../Handlers/Handler.js";
-import RequestBodyHandler from "../Handlers/RequestBodyHandler.js";
+import RequestBodyHandler from "../Handlers/Auth/RequestBodyHandler";
 import {userLoginSchema, userRegistrationSchema} from "../Entities/Schemas/userSchemas.js";
-import {PasswordHashingHandler} from "../Handlers/PasswordHashingHandler.js";
+import {PasswordHashingHandler} from "../Handlers/Auth/PasswordHashingHandler";
 import ITokenProvider from "../InterfaceAdapters/ITokenProvider.js";
 import TokenProviderFactory, {EProviders} from "../Infrastructure/TokenService/TokenProviderFactory.js";
 import {UserController} from "../Controller/userController.js";
-import {RegistrationHandler} from "../Handlers/RegistrationHandler.js";
-import {IUserRepository} from "../Repository/IUserRepository.js";
+import {RegistrationHandler} from "../Handlers/Auth/RegistrationHandler";
+import {IUserRepository} from "../Repository/User/IUserRepository";
 import {MongoDBClient} from "../Data/MongoDBClient.js";
-import {UserRepositoryMongo} from "../Repository/UserRepositoryMongo.js";
-import {LoginHandler} from "../Handlers/LoginHandler.js";
+import {UserRepositoryMongo} from "../Repository/User/UserRepositoryMongo";
+import {LoginHandler} from "../Handlers/Auth/LoginHandler";
 
 const userRouter = express.Router();
 

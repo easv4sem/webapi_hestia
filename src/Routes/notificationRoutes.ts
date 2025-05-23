@@ -1,7 +1,7 @@
 import express from "express";
 import {MongoDBClient} from "../Data/MongoDBClient.js";
-import INotificationRepository from "../Repository/INotificationRepository.js";
-import {NotificationRepositoryMongo} from "../Repository/NotificationRepositoryMongo.js";
+import INotificationRepository from "../Repository/Notification/INotificationRepository";
+import {NotificationRepositoryMongo} from "../Repository/Notification/NotificationRepositoryMongo";
 import {INotificationsController, NotificationsController} from "../Controller/notificationsController.js";
 
 const notificationRoutes = express.Router();

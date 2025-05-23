@@ -1,0 +1,10 @@
+{
+  "notification": {
+    "UniqueIdentifier":"wqeaf",
+    "IsRead":false,
+    "Title":"Example Notification",
+    "SubTitle":"Hello :)",
+    "Type":5,
+    "DateCreated": "2025-05-19T10:24:34.213Z"
+  }
+}

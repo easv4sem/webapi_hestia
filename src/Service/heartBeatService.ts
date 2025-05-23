@@ -1,7 +1,7 @@
 import {deviceStatus} from "../Entities/Models/DeviceStatus.js";
 import {IDevice} from "../Entities/Models/IDevice.js";
 import {IDeviceRepository} from "../Repository/IDeviceRepository.js";
-import {HEARTBEAT} from "../config/config.js";
+import { HEARTBEAT_CONFIG } from "../config/config.js";
 import Logger from "../Infrastructure/Logger/logger.js";
 import {EDeviceModes} from "../Entities/Enums/EDeviceModes.js";
 import {INotification} from "../Entities/Models/INotification.js";
@@ -19,7 +19,7 @@ export default class HeartBeatMonitor {
     private debug = (msg: string) => DEBUG && Logger.info(`[HEARTBEAT DEBUG] ${msg}`);
 
     getInterval(): number {
-        return HEARTBEAT.CHECK_INTERVAL_MS;
+        return HEARTBEAT_CONFIG.CHECK_INTERVAL_MS;
     }
 
     private constructor(deviceRepository: IDeviceRepository, notificationRepository: INotificationRepository) {
@@ -84,10 +84,10 @@ export default class HeartBeatMonitor {
                     this.debug("Last heartbeat time: " + lastHeartbeat);
                     this.debug("Time diff in sec: " + timeDiff);
                     this.debug("Time diff in min: " + diffMinutes)
-                    this.debug("The Math will look like: " + diffMinutes + " > "+ HEARTBEAT.OFFLINE_TREASHOLD_MINUTES);
+                    this.debug("The Math will look like: " + diffMinutes + " > "+ HEARTBEAT_CONFIG.OFFLINE_THRESHOLD_MINUTES);
 
                     //If the difference is greater than the threshold, we set the device to offline
-                    if (diffMinutes > HEARTBEAT.OFFLINE_TREASHOLD_MINUTES) {
+                    if (diffMinutes > HEARTBEAT_CONFIG.OFFLINE_THRESHOLD_MINUTES) {
                         this.debug("Device " + mac + " is offline. Last heartbeat was, " + diffMinutes + " minutes ago.");
                         //If the device is online, we set it to offline
                         if (status.Mode === EDeviceModes.Online) {

@@ -1,7 +1,7 @@
 import {IDevice} from "../Entities/Models/IDevice";
 import {RedisClient} from "../Data/ReadisClient.js";
 import Logger from "../Infrastructure/Logger/logger.js";
-import {READIES_CONFIG} from "../config/config";
+import {READIES_CONFIG} from "../config/config.js";
 
 export interface IDeviceRepositoryReadies {
     readDeviceAsyncByMac(mac: string): Promise<IDevice | undefined>;
@@ -80,7 +80,7 @@ export class DeviceRepositoryReadies implements IDeviceRepositoryReadies {
 
     /**
      * Caches the device in Redis with a TTL of 30 seconds.
-     * @param device The device to cache.
+     * @param devices The device to cache.
      * @returns The cached device.
      */
     public async cashAllDevices (devices: IDevice[]) : Promise<IDevice[]> {

@@ -4,6 +4,7 @@
  * https://refactoring.guru/design-patterns/chain-of-responsibility/typescript/example
  */
 import {ISensorData} from "../Entities/Models/Sensor/ISensorData";
+import {AlertContext} from "../Service/AlertContext";
 
 export interface IHandler {
     setNext(handler: IHandler): IHandler;
@@ -38,7 +39,8 @@ export abstract class AbstractHandler implements IHandler
 }
 
 export abstract class AlertHandler implements IAlertHandler{
-    private nextHandler: AlertHandler;
+    protected nextHandler: AlertHandler;
+    protected context = AlertContext;
 
     public setNext(handler : AlertHandler) {
         this.nextHandler = handler;

@@ -22,9 +22,9 @@ export class Bme280AlertHandler extends AlertHandler {
                     DateCreated: new Date(sensorData.TimeStamp),
                     IsRead: false
                 }
+
+                this.context.notificationRepository.postNotification(notifiction);
             }
-
-
         }
         super.handle(sensorData);
     }

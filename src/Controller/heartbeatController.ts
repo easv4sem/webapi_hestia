@@ -58,13 +58,15 @@ export default class HeartbeatController {
             }
 
             // Check if heartbeat is newer
-            if (device.LastHeartbeat && device.LastHeartbeat > heartbeatDate) {
-                Logger.warn("Failed Heartbeat - Outdated Date", {
-                    mac,
-                    lastHeartbeat: device.LastHeartbeat,
-                    newDate: heartbeatDate
-                });
-                return res.status(400).send("Heartbeat date is older than last known value");
+            if (device.LastHeartbeat === undefined) {
+                if (device.LastHeartbeat && device.LastHeartbeat > heartbeatDate) {
+                    Logger.warn("Failed Heartbeat - Outdated Date", {
+                        mac,
+                        lastHeartbeat: device.LastHeartbeat,
+                        newDate: heartbeatDate
+                    });
+                    return res.status(400).send("Heartbeat date is older than last known value");
+                }
             }
 
             // Update and persist

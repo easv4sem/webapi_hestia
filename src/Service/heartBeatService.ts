@@ -82,7 +82,7 @@ export default class HeartBeatMonitor {
                     //Debugging
                     this.debug("Current time: " + currentTime);
                     this.debug("Last heartbeat time: " + lastHeartbeat);
-                    this.debug("Time diff in sec: " + timeDiff);
+                    this.debug("Time diff in ms: " + timeDiff);
                     this.debug("Time diff in min: " + diffMinutes)
                     this.debug("The Math will look like: " + diffMinutes + " > "+ HEARTBEAT_CONFIG.OFFLINE_THRESHOLD_MINUTES);
 

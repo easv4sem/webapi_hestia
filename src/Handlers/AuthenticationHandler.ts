@@ -35,11 +35,6 @@ export class AuthenticationHandler extends AbstractHandler {
             return response.status(401).json({"error": "Unauthorized"});
         }
 
-
-
-
-
-
         return response.status(204).json({message: "user is not authenticated. JWT is invalid."});
     }
 }

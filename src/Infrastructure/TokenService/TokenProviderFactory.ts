@@ -12,7 +12,7 @@ export default class TokenProviderFactory {
         "secretKey": process.env.JWT_SECRET_KEY || "super_secret_key",
         "issuer": process.env.JWT_ISSUER || "my_issuer",
         "audience": process.env.JWT_AUDIENCE || "my_audience",
-        "expiresIn": 3600,
+        "expiresIn": 36000, // 10 hours in seconds
 
     }
 

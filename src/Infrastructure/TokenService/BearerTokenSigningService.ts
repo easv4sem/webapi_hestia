@@ -21,8 +21,14 @@ export class BearerTokenSigningService implements ITokenProvider{
         return jwt.decode(token);
     }
 
-    public verifyToken (authHeader: string): boolean {
-        return BearerTokenSigningService.verifyBearerToken(authHeader, this._private_key);
+    public verifyToken (token: string): boolean {
+        try {
+            jwt.verify(token, this._private_key)
+            return true;
+        } catch (e) {
+            return false;
+        }
+
     }
 
     public generateToken (payload : object ) : string {
@@ -30,16 +36,5 @@ export class BearerTokenSigningService implements ITokenProvider{
             expiresIn: this._exportation_time_seconds, issuer: this._issuer, audience: this._audience});
     }
 
-    private static verifyBearerToken(authorizationHeader: string, p_key : string): boolean {
 
-        let BearerToken = authorizationHeader.split(' ')[1];
-
-        try {
-            jwt.verify(BearerToken, p_key)
-            return true;
-        } catch (e) {
-            return false;
-        }
-
-    }
 }

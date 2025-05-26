@@ -27,7 +27,7 @@ export abstract class AbstractHandler implements IHandler
             return this.nextHandler.handle(request, response);
         }
 
-        return null;
+        return null; // If no next handler, return null or a default response
     }
 }
 

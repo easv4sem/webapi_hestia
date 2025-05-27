@@ -1,7 +1,7 @@
-import {AbstractHandler} from "../Handler";
-import ITokenProvider from "../../InterfaceAdapters/ITokenProvider";
-import {ERoles} from "../../Entities/Enums/ERoles";
-import Logger from "../../Infrastructure/Logger/logger";
+import {AbstractHandler} from "../Handler.js";
+import ITokenProvider from "../../InterfaceAdapters/ITokenProvider.js";
+import {ERoles} from "../../Entities/Enums/ERoles.js";
+import Logger from "../../Infrastructure/Logger/logger.js";
 
 export class AuthenticationHandler extends AbstractHandler {
     private TokenProvider: ITokenProvider;

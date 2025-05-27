@@ -1,5 +1,5 @@
 import { z, ZodError } from 'zod';
-import { AbstractHandler } from "../Handler";
+import { AbstractHandler } from "../Handler.js";
 
 export default class RequestBodyHandler extends AbstractHandler {
     private readonly schema: z.ZodObject<any, any>;

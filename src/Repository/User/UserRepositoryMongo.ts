@@ -1,8 +1,8 @@
-import {IUser} from "../../Entities/Models/User/IUser";
-import {IUserRepository} from "./IUserRepository";
-import {MongoDBClient} from "../../Data/MongoDBClient";
-import {UserAlreadyExistsError, UserNotFoundOrPasswordWrongError} from "../../Entities/Errors/UserErrors";
-import Logger from "../../Infrastructure/Logger/logger";
+import {IUser} from "../../Entities/Models/User/IUser.js";
+import {IUserRepository} from "./IUserRepository.js";
+import {MongoDBClient} from "../../Data/MongoDBClient.js";
+import {UserAlreadyExistsError, UserNotFoundOrPasswordWrongError} from "../../Entities/Errors/UserErrors.js";
+import Logger from "../../Infrastructure/Logger/logger.js";
 
 export class UserRepositoryMongo implements IUserRepository {
     

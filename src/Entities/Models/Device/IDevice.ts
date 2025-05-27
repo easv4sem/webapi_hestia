@@ -1,5 +1,5 @@
-import {EDeviceModes} from "../../Enums/EDeviceModes";
-import {ISensor} from "../Sensor/ISensor";
+import {EDeviceModes} from "../../Enums/EDeviceModes.js";
+import {ISensor} from "../Sensor/ISensor.js";
 
 export interface IDevice {
     PIUniqueIdentifier? : string,

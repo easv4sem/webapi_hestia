@@ -1,16 +1,16 @@
 import express from 'express';
 import {AbstractHandler} from "../Handlers/Handler.js";
-import RequestBodyHandler from "../Handlers/Auth/RequestBodyHandler";
+import RequestBodyHandler from "../Handlers/Auth/RequestBodyHandler.js";
 import {userLoginSchema, userRegistrationSchema} from "../Entities/Schemas/userSchemas.js";
-import {PasswordHashingHandler} from "../Handlers/Auth/PasswordHashingHandler";
+import {PasswordHashingHandler} from "../Handlers/Auth/PasswordHashingHandler.js";
 import ITokenProvider from "../InterfaceAdapters/ITokenProvider.js";
 import TokenProviderFactory, {EProviders} from "../Infrastructure/TokenService/TokenProviderFactory.js";
 import {UserController} from "../Controller/userController.js";
-import {RegistrationHandler} from "../Handlers/Auth/RegistrationHandler";
-import {IUserRepository} from "../Repository/User/IUserRepository";
+import {RegistrationHandler} from "../Handlers/Auth/RegistrationHandler.js";
+import {IUserRepository} from "../Repository/User/IUserRepository.js";
 import {MongoDBClient} from "../Data/MongoDBClient.js";
-import {UserRepositoryMongo} from "../Repository/User/UserRepositoryMongo";
-import {LoginHandler} from "../Handlers/Auth/LoginHandler";
+import {UserRepositoryMongo} from "../Repository/User/UserRepositoryMongo.js";
+import {LoginHandler} from "../Handlers/Auth/LoginHandler.js";
 
 const userRouter = express.Router();
 

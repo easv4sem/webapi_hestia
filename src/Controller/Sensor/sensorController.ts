@@ -1,6 +1,6 @@
-import {ISensor} from "../../Entities/Models/Sensor/ISensor";
-import {ISensorRepository} from "../../Repository/Sensor/ISensorRepository";
-import Logger from "../../Infrastructure/Logger/logger";
+import {ISensor} from "../../Entities/Models/Sensor/ISensor.js";
+import {ISensorRepository} from "../../Repository/Sensor/ISensorRepository.js";
+import Logger from "../../Infrastructure/Logger/logger.js";
 
 export interface ISensorController {
     getAllSensors(req : any, res : any): Promise<Response>;

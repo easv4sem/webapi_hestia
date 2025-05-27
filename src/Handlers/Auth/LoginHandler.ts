@@ -1,5 +1,5 @@
-import {AbstractHandler} from "../Handler";
-import {IUserController} from "../../Controller/userController"
+import {AbstractHandler} from "../Handler.js";
+import {IUserController} from "../../Controller/userController.js"
 
 export class LoginHandler extends AbstractHandler {
     private _userController: IUserController;

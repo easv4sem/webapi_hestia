@@ -1,12 +1,12 @@
-import {deviceStatus} from "../Entities/Models/Device/DeviceStatus";
+import {deviceStatus} from "../Entities/Models/Device/DeviceStatus.js";
 import {IDevice} from "../Entities/Models/Device/IDevice";
-import {IDeviceRepository} from "../Repository/Device/IDeviceRepository";
+import {IDeviceRepository} from "../Repository/Device/IDeviceRepository.js";
 import { HEARTBEAT_CONFIG } from "../config/config.js";
 import Logger from "../Infrastructure/Logger/logger.js";
 import {EDeviceModes} from "../Entities/Enums/EDeviceModes.js";
-import {INotification} from "../Entities/Models/Notification/INotification";
+import {INotification} from "../Entities/Models/Notification/INotification.js";
 import {EnumAppNotificationType} from "../Entities/Enums/EnumAppNotificationType.js";
-import INotificationRepository from "../Repository/Notification/INotificationRepository";
+import INotificationRepository from "../Repository/Notification/INotificationRepository.js";
 import {DEBUG} from "../config/config.js";
 
 export default class HeartBeatMonitor {

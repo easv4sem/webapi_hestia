@@ -1,8 +1,8 @@
-import {IDeviceRepository} from "./IDeviceRepository";
-import {IDevice} from "../../Entities/Models/Device/IDevice";
-import {MongoDBClient} from "../../Data/MongoDBClient";
-import { EDeviceModes } from "../../Entities/Enums/EDeviceModes";
-import Logger from "../../Infrastructure/Logger/logger";
+import {IDeviceRepository} from "./IDeviceRepository.js";
+import {IDevice} from "../../Entities/Models/Device/IDevice.js";
+import {MongoDBClient} from "../../Data/MongoDBClient.js";
+import { EDeviceModes } from "../../Entities/Enums/EDeviceModes.js";
+import Logger from "../../Infrastructure/Logger/logger.js";
 
 export class DeviceRepositoryMongoDB implements IDeviceRepository{
 
@@ -25,7 +25,6 @@ export class DeviceRepositoryMongoDB implements IDeviceRepository{
         const result = await collection.deleteOne({Mac: mac});
         return result.deletedCount > 0;
     }
-
 
     async readAllDevices(): Promise<IDevice[]> {
         return await this.database.getCollectionAsync<IDevice>(this.collection).then(collection => collection.find({}).toArray()) || [];
@@ -52,6 +51,12 @@ export class DeviceRepositoryMongoDB implements IDeviceRepository{
         }
     }
 
+    /*
+    ** Updates the device in the database. If the device does not exist, it will be inserted.
+    * @param device The device to update.
+    * @returns The updated device.
+    * @throws Error if the device could not be updated.
+     */
     async putDevice(device: IDevice): Promise<IDevice> {
         const collection = await this.database.getCollectionAsync<IDevice>(this.collection);
 

@@ -1,9 +1,8 @@
-import {ISensorReadingRepository} from "./ISensorReadingRepository";
-import {MongoDBClient} from "../../Data/MongoDBClient";
-import Logger from "../../Infrastructure/Logger/logger";
-import {ISensorData} from "../../Entities/Models/Sensor/ISensorData";
-import {ESensorTypes} from "../../Entities/Enums/ESensorTypes"
-import {ISensorReading} from "../../Entities/Models/Sensor/ISensorReading";
+import {ISensorReadingRepository} from "./ISensorReadingRepository.js";
+import {MongoDBClient} from "../../Data/MongoDBClient.js";
+import Logger from "../../Infrastructure/Logger/logger.js";
+import {ESensorTypes} from "../../Entities/Enums/ESensorTypes.js"
+import {ISensorReading} from "../../Entities/Models/Sensor/ISensorReading.js";
 
 
 export class SensorReadingRepositoryMongoDB implements ISensorReadingRepository {
@@ -14,7 +13,6 @@ export class SensorReadingRepositoryMongoDB implements ISensorReadingRepository 
     constructor(database: MongoDBClient, collection: string) {
         this.database = database;
         this.collection = collection;
-
     }
 
     async getReadingsFromDeviceMac(mac: string) {
@@ -26,10 +24,19 @@ export class SensorReadingRepositoryMongoDB implements ISensorReadingRepository 
             .then(collection => collection.find({Type: type}).toArray()) || undefined;
     }
 
+    async getLatestReadingByDeviceId(PIUniqueIdentifier: string): Promise<ISensorReading | undefined> {
+        const collection = await this.database.getCollectionAsync<ISensorReading>(this.collection);
+        return await collection
+            .find({ PIUniqueIdentifier })
+            .sort({ TimeStamp: -1 })
+            .limit(1)
+            .next() || undefined;
+    }
+
     // @ts-ignore
     async insertSensorReadings(rawSensorData: string ) {
 
-        const sensorDataList: ISensorData[] = [];
+        const sensorDataList: ISensorReading[] = [];
 
         try {
             const PiMac = rawSensorData["Mac-Add"];
@@ -98,7 +105,7 @@ export class SensorReadingRepositoryMongoDB implements ISensorReadingRepository 
             Logger.error("Error converting from json to object: ", error);
         }
 
-        const collection = await this.database.getCollectionAsync<ISensorData>(this.collection);
+        const collection = await this.database.getCollectionAsync<ISensorReading>(this.collection);
         const result = await collection.insertMany(sensorDataList)
 
         if(result.acknowledged) {

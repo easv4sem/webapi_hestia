@@ -1,9 +1,9 @@
 import Logger from "../Infrastructure/Logger/logger.js";
 import express from "express";
-import {ICalculationRequest} from "../Entities/Interfaces/ICalculationRequest";
+import {ICalculationRequest} from "../Entities/Interfaces/ICalculationRequest.js";
 import {isNonEmptyArray, isValidDate, isValidNumber} from "../Utilities/validateData.js";
-import {getDataByPieId} from "../Repository/Device/memoryDeviceRepository";
-import {IDaoRawSensorData, ISensorData} from "../Entities/Interfaces/ISensorData";
+import {getDataByPieId} from "../Repository/Device/memoryDeviceRepository.js";
+import {IDaoRawSensorData, ISensorData} from "../Entities/Interfaces/ISensorData.js";
 import {AnalyticsServices} from "../Service/analyticsServices.js";
 
 export class AnalyticsController {

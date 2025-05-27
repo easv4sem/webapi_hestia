@@ -1,4 +1,10 @@
+import {ESensorTypes} from "../../Enums/ESensorTypes.js";
+
 export interface ISensorReading {
-    PIUniqeIdentifier : string;
     SensorUniqueIdentifier : string;
+    PIUniqueIdentifier?: string;
+    Mac: string;
+    Type: ESensorTypes;
+    TimeStamp: string;
+    Data: any;
 }

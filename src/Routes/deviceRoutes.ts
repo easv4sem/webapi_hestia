@@ -1,10 +1,10 @@
 import express from "express";
 import DeviceController from "../Controller/deviceController.js";
-import {DeviceRepositoryMongoDB} from "../Repository/Device/DeviceRepositoryMongoDB";
+import {DeviceRepositoryMongoDB} from "../Repository/Device/DeviceRepositoryMongoDB.js";
 import {MongoDBClient} from "../Data/MongoDBClient.js";
-import {DeviceRepositoryReadies} from "../Repository/Device/DeviceRepositoryRedies";
+import {DeviceRepositoryReadies} from "../Repository/Device/DeviceRepositoryRedies.js";
 import HeartbeatController from "../Controller/heartbeatController.js";
-import {NotificationRepositoryMongo} from "../Repository/Notification/NotificationRepositoryMongo";
+import {NotificationRepositoryMongo} from "../Repository/Notification/NotificationRepositoryMongo.js";
 
 const deviceRoutes = express.Router();
 const mongoClient = new MongoDBClient(process.env.MONGO_DB_CONNECTION_STRING || "mongodb://mongo:27017/", process.env.MONGO_DB_NAME || "hestia");

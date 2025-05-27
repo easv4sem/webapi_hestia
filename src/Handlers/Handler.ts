@@ -3,8 +3,8 @@
  * It also declares a method for executing a request.
  * https://refactoring.guru/design-patterns/chain-of-responsibility/typescript/example
  */
-import {ISensorData} from "../Entities/Models/Sensor/ISensorData";
-import {AlertContext} from "../Service/AlertContext";
+import {ISensorReading} from "../Entities/Models/Sensor/ISensorReading.js";
+import {AlertContext} from "../Service/AlertContext.js";
 
 export interface IHandler {
     setNext(handler: IHandler): IHandler;
@@ -13,7 +13,7 @@ export interface IHandler {
 
 export interface IAlertHandler {
     setNext(handler: IAlertHandler): IAlertHandler;
-    handle(sensorData: ISensorData): any;
+    handle(sensorData: ISensorReading): any;
 }
 
 /**
@@ -38,6 +38,16 @@ export abstract class AbstractHandler implements IHandler
     }
 }
 
+/**
+ * AlertHandler is a base class for all alert handlers in the chain of responsibility.
+ *
+ * - Use `setNext(handler)` to chain multiple handlers.
+ * - Override the `handle(sensorData)` method to implement specific logic.
+ * - Each handler has access to shared services via `context`,
+ *   which provides instances of repositories (e.g., NotificationRepository, DeviceRepository).
+ *
+ * @see AlertContext (imported from ../Service/AlertContext)
+ */
 export abstract class AlertHandler implements IAlertHandler{
     protected nextHandler: AlertHandler;
     protected context = AlertContext;
@@ -47,7 +57,7 @@ export abstract class AlertHandler implements IAlertHandler{
         return handler;
     }
 
-    public handle(sensorData: ISensorData): any {
+    public handle(sensorData: ISensorReading): any {
         if (this.nextHandler) {
             return this.nextHandler.handle(sensorData);
         }

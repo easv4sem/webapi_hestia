@@ -1,11 +1,11 @@
-import {IDeviceRepository} from "../Repository/Device/IDeviceRepository";
-import INotificationRepository from "../Repository/Notification/INotificationRepository";
+import {IDeviceRepository} from "../Repository/Device/IDeviceRepository.js";
+import INotificationRepository from "../Repository/Notification/INotificationRepository.js";
 import {RegexUtils} from "../Utilities/regexUtils.js";
 import Logger from "../Infrastructure/Logger/logger.js";
-import {IDevice} from "../Entities/Models/Device/IDevice";
+import {IDevice} from "../Entities/Models/Device/IDevice.js";
 import HeartBeatMonitor from "../Service/heartBeatService.js";
-import {deviceStatus} from "../Entities/Models/Device/DeviceStatus";
-import {DEBUG} from "../config/config";
+import {deviceStatus} from "../Entities/Models/Device/DeviceStatus.js";
+import {DEBUG} from "../config/config.js";
 
 export default class HeartbeatController {
     private readonly _deviceRepository: IDeviceRepository;

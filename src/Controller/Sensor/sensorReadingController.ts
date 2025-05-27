@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import Logger from "../../Infrastructure/Logger/logger";
-import {ISensorReadingRepository} from "../../Repository/Sensor/ISensorReadingRepository";
-import {ISensorReading} from "../../Entities/Models/Sensor/ISensorReading";
+import Logger from "../../Infrastructure/Logger/logger.js";
+import {ISensorReadingRepository} from "../../Repository/Sensor/ISensorReadingRepository.js";
+import {ISensorReading} from "../../Entities/Models/Sensor/ISensorReading.js";
 
 export class SensorReadingController {
 
@@ -12,6 +12,7 @@ export class SensorReadingController {
         this.getSensorData = this.getSensorData.bind(this);
         this.getReadingsFromDeviceMac = this.getReadingsFromDeviceMac.bind(this);
         this.getReadingsFromSensorType = this.getReadingsFromSensorType.bind(this);
+        this.insertSensorReadings = this.insertSensorReadings.bind(this);
     }
 
     public async getSensorData(req: Request, res: Response): Promise<Response> {
@@ -82,6 +83,32 @@ export class SensorReadingController {
             return res.status(500).send("Error getting sensor readings from type");
         }
 
+    }
+
+    /**
+     * Inserts sensor readings into the database.
+     * This method expects the request body to contain the sensor readings in a specific format.
+     * It will parse the readings and insert them into the database.
+     * @param req
+     * @param res
+     */
+    public async insertSensorReadings(req: Request, res: Response): Promise<Response> {
+        try {
+            if (!req.body) {
+                Logger.info(req.body);
+                return res.status(400).send("Request body is required");
+            }
+
+            const result = await this.sensorReadingRepository.insertSensorReadings(req.body);
+
+            Logger.info(result);
+
+
+            return res.send(result);
+        } catch (err) {
+            Logger.error("[SensorReadingController] Error inserting sensor readings", err);
+            return res.status(500).send("Error inserting sensor readings");
+        }
     }
 
 }

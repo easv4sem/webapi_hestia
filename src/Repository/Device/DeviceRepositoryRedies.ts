@@ -1,7 +1,7 @@
-import {IDevice} from "../../Entities/Models/Device/IDevice";
-import {RedisClient} from "../../Data/ReadisClient";
-import Logger from "../../Infrastructure/Logger/logger";
-import {READIES_CONFIG} from "../../config/config";
+import {IDevice} from "../../Entities/Models/Device/IDevice.js";
+import {RedisClient} from "../../Data/ReadisClient.js";
+import Logger from "../../Infrastructure/Logger/logger.js";
+import {READIES_CONFIG} from "../../config/config.js";
 
 export interface IDeviceRepositoryReadies {
     readDeviceAsyncByMac(mac: string): Promise<IDevice | undefined>;

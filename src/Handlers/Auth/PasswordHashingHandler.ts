@@ -1,5 +1,5 @@
-import Logger from "../../Infrastructure/Logger/logger";
-import { AbstractHandler } from "../Handler";
+import Logger from "../../Infrastructure/Logger/logger.js";
+import { AbstractHandler } from "../Handler.js";
 import bcrypt from 'bcryptjs';
 
 export class PasswordHashingHandler extends AbstractHandler {

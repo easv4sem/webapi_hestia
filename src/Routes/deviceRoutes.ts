@@ -22,9 +22,9 @@ const {
     postSensorToDeviceByDeviceID,
     postSensorToDeviceByDeviceMac,
 } = new DeviceController(new DeviceRepositoryMongoDB(mongoClient, "devices"), new DeviceRepositoryReadies());
+
 const {
     postHeartbeat
-
 } = new HeartbeatController(new DeviceRepositoryMongoDB(mongoClient, "devices"), new NotificationRepositoryMongo(mongoClient, process.env.MONGO_DB_NOTIFICATIONS_COLLECTION || "notifications"));
 
 deviceRoutes.get("/id/:id", getDeviceById);

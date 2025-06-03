@@ -38,6 +38,7 @@ app.use('/api/sensors', sensorRoutes);
 app.use('/api/user', userRouter);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/sensorReadings', sensorReadingRoutes);
+
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
     Logger.info("Request received: ${req.method} ${req.url}", req);
     next();

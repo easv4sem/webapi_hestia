@@ -48,7 +48,7 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 const authorizationHandler = new AuthorizationHandler(ERoles.USER);
 app.use(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const isApiRoute = req.path.startsWith("/api");
-    const isPublicRoute = req.path.startsWith("/api/user/login") || req.path.startsWith("/api/user/register") || req.path.startsWith("/api/user/logout");
+    const isPublicRoute = req.path.startsWith("/api/user/login") || req.path.startsWith("/api/user/register") || req.path.startsWith("/api/user/logout") || req.path.startsWith("/api/sensorReadings");
 
     if (isApiRoute && !isPublicRoute) {
         console.log("Authorization check for path: " + req.path);

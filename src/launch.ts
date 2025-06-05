@@ -40,6 +40,11 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
     next(err);
 });
 
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+    Logger.info(`Request received: ${req.method} ${req.url}`, req);
+    next();
+});
+
 const authorizationHandler = new AuthorizationHandler(ERoles.USER);
 
 app.use(async (req: express.Request, res: express.Response, next: express.NextFunction) => {

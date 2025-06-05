@@ -46,7 +46,6 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 });
 
 const authorizationHandler = new AuthorizationHandler(ERoles.USER);
-
 app.use(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const isApiRoute = req.path.startsWith("/api");
     const isPublicRoute = req.path.startsWith("/api/user/login") || req.path.startsWith("/api/user/register") || req.path.startsWith("/api/user/logout");
@@ -54,20 +53,15 @@ app.use(async (req: express.Request, res: express.Response, next: express.NextFu
     if (isApiRoute && !isPublicRoute) {
         console.log("Authorization check for path: " + req.path);
 
-        // Vent på authorization handleren
         const result = await authorizationHandler.handle(req, res);
 
-        // Hvis handleren returnerer noget, er der allerede sendt et svar.
-        // Ellers fortsæt til næste middleware.
         if (!res.headersSent) {
             return next();
         }
 
-        // Stop her, hvis svaret allerede er sendt.
         return;
     }
 
-    // Hvis det ikke er en beskyttet route, fortsæt bare
     return next();
 });
 
